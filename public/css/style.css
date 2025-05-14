@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 15px;
+    gap: 15px;
+}
+
+/* Left side styling */
+.left-side {
+    flex: 1;
+    background: linear-gradient(135deg, #2c3e50, #4a6572);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    margin-bottom: 2rem;
+}
+
+.logo h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.left-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.left-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.left-content > p {
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.features {
+    margin-bottom: 3rem;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.feature-icon {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+.feature-text h4 {
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+.feature-text p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.testimonial {
+    border-left: 3px solid #f5c754;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+.quote {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.author {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Right side styling */
+.right-side {
+    flex: 1;
+    background-color: #f5c754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.login-container {
+    max-width: 450px;
+    width: 100%;
+    padding: 2rem;
+}
+
+.login-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #f5c754;
+    border: none;
+    border-radius: 4px;
+    color: #333;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    box-shadow: 0 2px 4px rgb(0, 0, 0);
+}
+
+.login-btn:hover {
+    background-color: #e6ba4a;
+}
+
+.signup-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #555;
+}
+
+.create-account {
+    display: block;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.create-account:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .left-side {
+        padding: 2rem 1.5rem;
+    }
+    
+    .left-content h1 {
+        font-size: 2rem;
+    }
+    
+    .right-side {
+        padding: 2rem 1.5rem;
+    }
+}
