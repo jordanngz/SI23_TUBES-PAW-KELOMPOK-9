@@ -2,42 +2,61 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\SeatController;
 
-// Redirect root ke /login
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-// Auth routes
+/*
+|--------------------------------------------------------------------------
+| 🔐 AUTH ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::get('/', fn () => redirect()->route('login'));
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
-
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
-
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Redirect dashboard sesuai role
+/*
+|--------------------------------------------------------------------------
+| 🔀 ROLE-BASED DASHBOARD REDIRECT
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
     $role = auth()->user()->role ?? 'guest';
-
-    if ($role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    } elseif ($role === 'user') {
-        return redirect()->route('home');
-    }
-
-    abort(403, 'Unauthorized');
+    return match ($role) {
+        'admin' => redirect()->route('admin.dashboard'),
+        'user'  => redirect()->route('mode'),
+        default => abort(403, 'Unauthorized'),
+    };
 })->middleware('auth')->name('dashboard');
 
-// Admin dashboard (khusus admin)
+/*
+|--------------------------------------------------------------------------
+| 👑 ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard'); // Buat file resources/views/admin/dashboard.blade.php
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
 });
 
-// Home (khusus user biasa)
-Route::get('/home', function () {
-    return view('auth.home'); // Buat file resources/views/auth/home.blade.php
-})->middleware('auth')->name('home');
+/*
+|--------------------------------------------------------------------------
+| 👤 USER ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mode', fn () => view('auth.mode'))->name('mode');
+    Route::get('/home', fn () => view('auth.home'))->name('home');
+
+    // Seat Reservation
+    Route::get('/seat', [SeatController::class, 'index'])->name('reserve');
+    Route::post('/seat', [SeatController::class, 'reserve'])->name('reserve.store');
+
+    // Menu & Cart
+    Route::get('/menu', [CartController::class, 'viewMenu'])->name('menu');
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove/{item}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+});

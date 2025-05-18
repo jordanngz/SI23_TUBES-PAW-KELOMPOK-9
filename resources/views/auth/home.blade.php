@@ -2,204 +2,254 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kerapu Fine Dining - Home</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap');
 
-    /* Reset */
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-      width: 100%;
-      font-family: 'Poppins', sans-serif;
-      background-color: #2c3e50;
-      color: white;
-      display: flex;
-      flex-direction: column;
+      box-sizing: border-box;
     }
 
     body {
-      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
     }
 
     header {
+      background: url('{{ asset('images/image.jpg') }}') no-repeat center center/cover;
+      height: 100vh;
       position: relative;
-      background-color: #f5c754;
-      color: black;
-      padding: 24px 30px 16px;
-      text-align: center; /* Menjaga title dan welcome-msg tetap di tengah */
-      box-shadow: 0 4px 10px #4a6572;
-      font-family: 'Playfair Display', serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
     }
 
-    .title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 0;
-    }
-
-    #welcome-msg {
-      font-size: 1.2rem;
-      font-family: 'Poppins', sans-serif;
-      margin-top: 8px;
-    }
-
-    .logout-btn {
+    header::before {
+      content: '';
       position: absolute;
-      top: 30px;
-      right: 30px;
-      padding: 10px 20px;
-      background-color: #2c3e50;
-      color: white; /* Menjadikan teks berwarna putih */
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: 'Poppins', sans-serif; /* Menambahkan font Poppins */
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      text-decoration: none; /* Pastikan tidak ada underline */
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
     }
 
-    .logout-btn:hover {
-      background-color: #ffe066;
-      color: #222; /* Mengubah teks menjadi gelap saat hover */
+    header h1, header p {
+      position: relative;
+      z-index: 2;
     }
 
-
-    main {
-      flex: 1;
-      padding: 24px 30px;
-      background-color: #102E50;
-      border-radius: 0 0 24px 24px;
-      box-shadow: inset 0 0 20px rgba(255 255 255 / 0.15);
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: #f5c754;
+      margin-bottom: 20px;
     }
 
-    .hero-image {
-      width: 100%;
-      max-height: 320px;
-      object-fit: cover;
-      border-radius: 16px;
-      margin-bottom: 24px;
-      box-shadow: 0 8px 20px rgba(0 85 170 / 0.5);
+    header p {
+      font-size: 1.2rem;
+      color: #eee;
+      max-width: 600px;
     }
 
-    .resto-info {
-      margin-bottom: 36px;
+    .section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #f5c754;
       text-align: center;
     }
 
-    .resto-info h2 {
-      font-size: 2rem;
-      color: white;
-      margin-bottom: 12px;
-      font-weight: 700;
+    .restaurant-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 30px;
     }
 
-    .resto-info p {
-      font-size: 1.2rem;
-      line-height: 1.5;
+    .slider {
+      flex: 1 1 500px;
+      max-width: 48%;
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .slider img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      border-radius: 12px;
+    }
+
+    .slider img.active {
+      opacity: 1;
+    }
+
+    .description {
+      flex: 1 1 500px;
+      max-width: 48%;
       color: #eee;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      text-align: justify;
     }
 
-    nav {
+    .menu-list {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
     }
 
-    nav button {
-      flex: 1 1 140px;
-      max-width: 180px;
-      background-color: #e6ba4a;
-      border: none;
+    .menu-item {
+      background-color: #1c1c1c;
+      border: 1px solid #333;
       border-radius: 12px;
-      color: black;
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 18px 0;
-      cursor: pointer;
-      box-shadow: 0 5px 15px #4a6572;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 20px;
+      width: 250px;
+      text-align: center;
     }
 
-    nav button:hover,
-    nav button:focus {
-      background-color: #ffe066;
-      color: #222;
+    .menu-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .menu-item h4 {
+      margin-bottom: 10px;
+      color: #f5c754;
+    }
+
+    .reserve-btn {
+      display: block;
+      margin: 40px auto 0;
+      background-color: #f5c754;
+      color: #000;
+      font-weight: bold;
+      padding: 16px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      width: max-content;
+    }
+
+    .reserve-btn:hover {
+      background-color: #ffe27a;
+    }
+
+    .contact-info {
+      margin-top: 40px;
+      text-align: center;
+      color: #ccc;
+    }
+
+    .contact-info p {
+      margin: 8px 0;
     }
 
     footer {
-      background-color: #222;
-      color: #f5c754;
-      padding: 16px 30px;
-      font-size: 0.9rem;
+      background-color: #000;
+      color: #aaa;
       text-align: center;
-      user-select: none;
-      text-shadow: 0 0 3px rgba(255 204 0 / 0.8); /* Tetap menggunakan ukuran dan efek footer sebelumnya */
-    }
-
-    main::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    main::-webkit-scrollbar-track {
-      background: #004080;
-    }
-
-    main::-webkit-scrollbar-thumb {
-      background-color: rgb(255, 225, 0);
-      border-radius: 4px;
+      padding: 20px;
+      font-size: 0.9rem;
     }
   </style>
 </head>
-
 <body>
   <header>
-    <a href="{{ route('logout') }}" class="logout-btn">Logout</a>
-    <h1 class="title">Kerapu Fine Dining Restaurant</h1>
-    <div id="welcome-msg">Welcome, <span id="name">{{ Auth::check() ? Auth::user()->name : 'Guest' }}</span></div>
+    <h1>Kerapu Fine Dining</h1>
+    <p>Where luxury meets flavor — enjoy an exquisite fine dining experience with a serene ambiance and curated dishes just for you.</p>
   </header>
 
-  <main>
-    <img class="hero-image" src="{{ asset('images/image.jpg') }}" alt="Restaurant ambiance" loading="lazy" />
+  <section class="section">
+    <h2>About Our Restaurant</h2>
+    <div class="restaurant-info">
+      <div class="slider">
+        <img src="{{ asset('images/interior_rest.jpeg') }}" class="slide active" alt="Slide 1">
+        <img src="{{ asset('images/interior_rest2.jpg') }}" class="slide" alt="Slide 2">
+        <img src="{{ asset('images/interior_rest3.jpg') }}" class="slide" alt="Slide 3">
+      </div>
+      <div class="description">
+        <p>Founded in 2012, Kerapu Fine Dining takes its name from the grouper fish, a beloved seafood delicacy in Indonesia, symbolizing our dedication to fresh, high-quality ingredients. Combining modern elegance with rich local flavors, the restaurant offers a refined dining experience where tradition meets innovation, creating memorable moments through exquisite dishes, serene ambiance, and impeccable service.</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="resto-info">
-      <h2>Delicious Food & Cozy Atmosphere</h2>
-      <p>
-        Enjoy handcrafted dishes made from fresh ingredients with friendly service in a warm and inviting space — your perfect place for meals and memories.
-      </p>
-    </section>
-    
-    <nav>
-      <button onclick="navigateTo('menu')">Menu</button>
-      <button onclick="navigateTo('seat')">Seat Info</button>
-      <button onclick="navigateTo('reserve')">Reserve</button>
-      <button onclick="navigateTo('contact')">Contact Person</button>
-      <button onclick="navigateTo('payment')">Payment</button>
-    </nav>
-  </main>
+  <section class="section">
+    <h2>Latest Menu Highlights</h2>
+    <div class="menu-list">
+      <div class="menu-item">
+        <img src="{{ asset('images/salmon-with-lemon-butter-sauce-3393.jpg') }}" alt="Seared Salmon">
+        <h4>Seared Salmon</h4>
+        <p>Fresh salmon fillet with lemon butter sauce.</p>
+      </div>
+      <div class="menu-item">
+        <img src="{{ asset('images/Truffle-mushroom-pasta.jpg') }}" alt="Truffle Pasta">
+        <h4>Truffle Pasta</h4>
+        <p>Handmade pasta with rich truffle cream sauce.</p>
+      </div>
+      <div class="menu-item">
+        <img src="{{ asset('images/Steakhouses.jpg') }}" alt="Signature Steak">
+        <h4>Signature Steak</h4>
+        <p>Premium cut grilled to perfection with herb butter.</p>
+      </div>
+      <div class="menu-item">
+        <img src="{{ asset('images/lobster-soup.jpg') }}" alt="Lobster Bisque">
+        <h4>Lobster Bisque</h4>
+        <p>Creamy lobster soup with a touch of brandy.</p>
+      </div>
+    </div>
+
+    <a href="{{ route('reserve') }}" class="reserve-btn">Reserve Now</a>
+
+
+    <div class="contact-info">
+      <p>📍 Jl. Sejahtera No.88, Jakarta Selatan, Indonesia</p>
+      <p>📞 +62 812-3456-7890</p>
+      <p>✉️ info@kerapufinedining.com</p>
+    </div>
+  </section>
 
   <footer>
-    &copy; 2025 Kerapu Fine Dining. All rights reserved.
+    <p>&copy; {{ date('Y') }} Kerapu Fine Dining. All rights reserved.</p>
   </footer>
 
   <script>
-    // Placeholder for navigation actions
-    function navigateTo(page) {
-      alert('Navigate to ' + page + ' page (feature coming soon)');
-    }
+    const slides = document.querySelectorAll('.slide');
+    let index = 0;
+
+    setInterval(() => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    }, 3000);
   </script>
 </body>
-
 </html>
