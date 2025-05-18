@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Table;
-
 
 class TableSeeder extends Seeder
 {
@@ -15,7 +13,7 @@ class TableSeeder extends Seeder
             Table::create([
                 'table_number' => 'Table ' . $i,
                 'seats' => 4,
-                'status' => $i % 2 == 1 ? 'not available' : 'available',
+                'status' => $i % 2 == 1 ? 'reserved' : 'available', // ✅ hanya 'reserved' atau 'available'
             ]);
         }
     }

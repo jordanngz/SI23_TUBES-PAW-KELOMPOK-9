@@ -9,9 +9,9 @@ return new class extends Migration {
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->string('table_number')->unique();
-            $table->integer('seats')->default(4); // default 4 seats
-            $table->enum('status', ['available', 'not available'])->default('available');
+            $table->string('table_number')->unique(); // ✅ nama kolom diperbaiki
+            $table->integer('seats'); 
+            $table->enum('status', ['available', 'reserved'])->default('available');
             $table->timestamps();
         });
     }

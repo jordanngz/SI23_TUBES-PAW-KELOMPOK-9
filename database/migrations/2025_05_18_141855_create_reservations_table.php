@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('table_id')->constrained()->onDelete('cascade');
-            $table->dateTime('reserved_at');
+            $table->timestamp('reserved_at');
             $table->timestamps();
         });
+
     }
 
 

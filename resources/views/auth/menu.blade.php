@@ -21,6 +21,7 @@
             <div class="menu-categories">
                 <h4>Menu Categories</h4>
                 <ul>
+                    <li class="backlink"><a href="{{ route('reserve') }}">Back to Seat Selection</a></li>
                     <li class="active"><a href="#">All Menu</a></li>
                     <li><a href="#">Appetizers</a></li>
                     <li><a href="#">Main Course</a></li>
@@ -45,6 +46,7 @@
                         <p class="empty-cart">Your cart is empty</p>
                     @endif
                 </div>
+
                 <div class="cart-total">
                     <p>Total: 
                         <span id="cart-total-amount">
@@ -57,6 +59,7 @@
         </div>
 
         <!-- Main Content -->
+
         <div class="main-content">
             <div class="header">
                 <div class="menu-toggle">
