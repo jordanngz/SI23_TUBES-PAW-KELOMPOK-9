@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/complete-order', [CheckoutController::class, 'completeOrder'])->name('complete.order');
     Route::get('/payment/status/final', [CheckoutController::class, 'statusFinal'])->name('payment.status.final');
     Route::post('/payment/confirm', [CheckoutController::class, 'confirmTransaction'])->name('payment.confirm');
-    Route::get('/checkout/{code}', [CheckoutController::class, 'checkoutByCode'])->name('checkout.code');
+    Route::get('/checkout/{code}', [CheckoutController::class, 'checkoutByCode'])->name('checkoutByCode');
 // Untuk form update dari halaman checkout
     Route::post('/payment/update-dana', [CheckoutController::class, 'updateDana'])->name('payment.update.dana');
     Route::post('/payment/update-credit', [CheckoutController::class, 'updateCredit'])->name('payment.update.credit');

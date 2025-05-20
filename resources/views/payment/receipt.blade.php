@@ -308,7 +308,7 @@
             </div>
 
             <div class="button-container">
-                <button onclick="window.location.href='{{ route('home') }}'" class="button">BACK</button>
+                <button onclick="window.location.href='{{ route('menu') }}'" class="button">BACK</button>
                 <button onclick="window.print()" class="button">EXPORT TO PDF</button>
             </div>
         </div>

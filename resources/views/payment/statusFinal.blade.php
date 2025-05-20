@@ -78,7 +78,7 @@
             <button class="cancel-btn">Cancel Reservation</button>
 
             @if ($transaction->status === 'pending')
-              <a href="{{ route('checkout.code', ['code' => $transaction->transaction_code]) }}" class="pay-btn">Pay Bills</a>
+              <a href="{{ route('checkoutByCode', ['code' => $transaction->transaction_code]) }}" class="pay-btn">Pay Bills</a>
             @elseif ($transaction->status === 'paid')
               <button class="pay-btn">Seat Confirmation</button>
             @endif
