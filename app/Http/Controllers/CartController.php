@@ -43,12 +43,16 @@ class CartController extends Controller
         $user = Auth::user();
         $cart = $user->cart()->with('items.product')->first();
 
-        if (!$cart || $cart->items->isEmpty()) {
-            return redirect()->route('menu')->with('status', 'Cart is empty. Add items first.');
+        // Ambil transaksi dari session
+        $transactionId = session('transaction_id');
+        $transaction = null;
+        if ($transactionId) {
+            $transaction = \App\Models\Transaction::with('items.product')->find($transactionId);
         }
 
-        return view('auth.checkout', compact('cart'));
+        return view('auth.checkout', compact('cart', 'transaction'));
     }
+
 
     // ➕ Menambahkan produk ke cart
     public function add(Product $product)

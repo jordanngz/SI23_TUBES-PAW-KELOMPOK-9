@@ -27,33 +27,59 @@
             <h4>Reservation</h4>
             <ul class="sidebar-menu">
                 <li class="active"><a href="#table-selection">Table Selection</a></li>
-                <li><a href="#menu-selection">Menu Selection</a></li>
+                <li><a href="{{ route('menu') }}">Menu Selection</a></li>
                 <li><a href="#table-layout">Table Layout</a></li>
                 <li><a href="#special-requests">Special Requests</a></li>
+                <li><a href="{{ route('payment.status.final') }}">Payment Status</a></li>
                 <li><a href="#confirmation">Confirmation</a></li>
             </ul>
         </div>
 
-        <div class="sidebar-section">
+        <div class="sidebar-section">   
             <h4>Your Reservation</h4>
+
             @if ($userReservation)
                 <div class="reservation-details" style="display:block">
-                    <div class="reservation-item"><span>Table:</span> <span id="selected-table">Table {{ $userReservation->table->number }}</span></div>
-                    <div class="reservation-item"><span>Date:</span> <span id="selected-date">{{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}</span></div>
-                    <div class="reservation-item"><span>Time:</span> <span id="selected-time">-</span></div>
-                    <div class="reservation-item"><span>Guests:</span> <span id="selected-guests">-</span></div>
+                    <div class="reservation-item">
+                        <span>Table:</span> 
+                        <span id="selected-table">Table {{ $userReservation->table->number }}</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Date:</span> 
+                        <span id="selected-date">{{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Time:</span> 
+                        <span id="selected-time">{{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('H:i') }}</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Guests:</span> 
+                        <span id="selected-guests">{{ Auth::user()->name }}</span>
+                    </div>
                 </div>
             @else
                 <p class="reservation-status">No table selected yet</p>
                 <div class="reservation-details">
-                    <div class="reservation-item"><span>Table:</span> <span id="selected-table">-</span></div>
-                    <div class="reservation-item"><span>Date:</span> <span id="selected-date">-</span></div>
-                    <div class="reservation-item"><span>Time:</span> <span id="selected-time">-</span></div>
-                    <div class="reservation-item"><span>Guests:</span> <span id="selected-guests">-</span></div>
+                    <div class="reservation-item">
+                        <span>Table:</span> <span id="selected-table">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Date:</span> <span id="selected-date">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Time:</span> <span id="selected-time">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Guests:</span> <span id="selected-guests">-</span>
+                    </div>
                 </div>
             @endif
-            <a href="{{ route('menu') }}"><button class="continue-btn">Continue to Menu</button></a>
-        </div>
+
+            <a href="{{ route('menu') }}">
+                <button class="continue-btn">Continue to Menu</button>
+            </a>
+</div>
+
     </div>
 
     <!-- Main Content -->
@@ -134,48 +160,48 @@
 
 <!-- Scripts -->
 <script>
-    document.querySelectorAll('.table-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const status = card.getAttribute('data-status');
-            const tableId = card.getAttribute('data-table');
-            const tableName = card.querySelector('h3').innerText;
-            const date = document.getElementById('reservation-date').value;
-            const time = document.getElementById('reservation-time').value;
-            const guests = document.getElementById('party-size').value;
+document.querySelectorAll('.table-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const status = card.getAttribute('data-status');
+        const tableId = card.getAttribute('data-table');
+        const tableName = card.querySelector('h3').innerText;
+        const date = document.getElementById('reservation-date').value;
 
-            if (status === 'available') {
-                if (confirm(`Do you want to reserve ${tableName}?`)) {
-                    fetch("{{ route('reserve.store') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ table_id: tableId })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        location.reload();
-                    })
-                    .catch(() => alert('Failed to reserve table.'));
-                }
-            } else {
-                alert('Sorry, this table is already reserved.');
+        // Update waktu dan nama user
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const guests = "{{ Auth::user()->name }}";
+
+        if (status === 'available') {
+            if (confirm(`Do you want to reserve ${tableName}?`)) {
+                fetch("{{ route('reserve.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ table_id: tableId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload();
+                })
+                .catch(() => alert('Failed to reserve table.'));
             }
+        } else {
+            alert('Sorry, this table is already reserved.');
+        }
 
-            // Update preview
-            document.querySelector('.reservation-status').style.display = 'none';
-            document.querySelector('.reservation-details').style.display = 'block';
-            document.getElementById('selected-table').innerText = tableName;
-            document.getElementById('selected-date').innerText = date;
-            document.getElementById('selected-time').innerText = time;
-            document.getElementById('selected-guests').innerText = guests;
-
-            document.querySelectorAll('.table-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-        });
+        document.querySelector('.reservation-status').style.display = 'none';
+        document.querySelector('.reservation-details').style.display = 'block';
+        document.getElementById('selected-table').innerText = tableName;
+        document.getElementById('selected-date').innerText = date;
+        document.getElementById('selected-time').innerText = time;
+        document.getElementById('selected-guests').innerText = guests;
     });
+});
+
 </script>
 </body>
 </html>

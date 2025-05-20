@@ -19,6 +19,7 @@
         <div class="menu-categories">
             <h4>Menu Categories</h4>
             <ul>
+                <li class="backlink"><a href="{{ route('reserve') }}">Back to Seat Selection</a></li>
                 <li><a href="{{ route('menu') }}">All Menu</a></li>
                 <li><a href="#">Appetizers</a></li>
                 <li><a href="#">Main Course</a></li>
@@ -119,7 +120,13 @@
                 </div>
                 <div class="cart-actions">
                     <a href="{{ route('menu') }}" class="continue-shopping">Continue Shopping</a>
-                    <a href="{{ route('checkout') }}" class="checkout-btn">Proceed to Checkout</a>
+
+                <form method="POST" action="{{ route('payment.submit') }}">
+                    @csrf
+                    <input type="hidden" name="payment_method" value="none">
+                    <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+                </form>
+
                 </div>
             </div>
         </div>

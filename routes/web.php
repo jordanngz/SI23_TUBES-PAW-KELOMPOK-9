@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SeatController;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,5 +59,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/remove/{item}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Checkout & Payment Methods
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout/credit', [CheckoutController::class, 'credit'])->name('payment.credit');
+    Route::get('/checkout/dana', [CheckoutController::class, 'dana'])->name('payment.dana');
+    Route::get('checkout/receipt', [CheckoutController::class, 'receipt'])->name('payment.receipt');
+    Route::get('checkout/status', [CheckoutController::class, 'status'])->name('payment.status');
+    Route::post('/payment/submit', [CheckoutController::class, 'submitTransaction'])->name('payment.submit');
+    Route::post('/complete-order', [CheckoutController::class, 'completeOrder'])->name('complete.order');
+    Route::get('/payment/status/final', [CheckoutController::class, 'statusFinal'])->name('payment.status.final');
+    Route::post('/payment/confirm', [CheckoutController::class, 'confirmTransaction'])->name('payment.confirm');
+    Route::get('/checkout/{code}', [CheckoutController::class, 'checkoutByCode'])->name('checkout.code');
+// Untuk form update dari halaman checkout
+    Route::post('/payment/update-dana', [CheckoutController::class, 'updateDana'])->name('payment.update.dana');
+    Route::post('/payment/update-credit', [CheckoutController::class, 'updateCredit'])->name('payment.update.credit');
+
+
+
+
 });

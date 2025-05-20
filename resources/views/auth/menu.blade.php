@@ -53,7 +53,7 @@
                             ${{ $cart ? number_format($cart->items->sum(fn($i) => $i->quantity * $i->product->price), 2) : '0.00' }}
                         </span>
                     </p>
-                    <a href="{{ route('checkout') }}" class="checkout-btn">Proceed to Checkout</a>
+                    <a href="{{ route('cart') }}" class="checkout-btn">Proceed to checkout</a>
                 </div>
             </div>
         </div>
