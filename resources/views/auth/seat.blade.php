@@ -37,12 +37,11 @@
 
         <div class="sidebar-section">   
             <h4>Your Reservation</h4>
-
             @if ($userReservation)
                 <div class="reservation-details" style="display:block">
                     <div class="reservation-item">
                         <span>Table:</span> 
-                        <span id="selected-table">Table {{ $userReservation->table->number }}</span>
+                        <span id="selected-table">Table {{ $userReservation->table->number ?? 'N/A' }}</span>
                     </div>
                     <div class="reservation-item">
                         <span>Date:</span> 
@@ -78,8 +77,7 @@
             <a href="{{ route('menu') }}">
                 <button class="continue-btn">Continue to Menu</button>
             </a>
-</div>
-
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -166,26 +164,27 @@ document.querySelectorAll('.table-card').forEach(card => {
         const tableId = card.getAttribute('data-table');
         const tableName = card.querySelector('h3').innerText;
         const date = document.getElementById('reservation-date').value;
-
-        // Update waktu dan nama user
-        const now = new Date();
-        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = document.getElementById('reservation-time').value;
+        const reservedAt = `${date}T${time}`;
         const guests = "{{ Auth::user()->name }}";
 
         if (status === 'available') {
             if (confirm(`Do you want to reserve ${tableName}?`)) {
-                fetch("{{ route('reserve.store') }}", {
+                fetch("{{ route('reserve.temp') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    body: JSON.stringify({ table_id: tableId })
+                    body: JSON.stringify({ 
+                        table_id: tableId,
+                        reserved_at: reservedAt
+                    })
                 })
                 .then(response => response.json())
                 .then(data => {
                     alert(data.message);
-                    location.reload();
+                    location.reload();  
                 })
                 .catch(() => alert('Failed to reserve table.'));
             }
@@ -201,7 +200,6 @@ document.querySelectorAll('.table-card').forEach(card => {
         document.getElementById('selected-guests').innerText = guests;
     });
 });
-
 </script>
 </body>
 </html>

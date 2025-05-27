@@ -187,10 +187,12 @@
                 background-color: white;
                 padding: 0;
             }
+
             .receipt {
                 box-shadow: none;
                 padding: 0;
             }
+
             .button-container, .back-button {
                 display: none;
             }
@@ -199,10 +201,11 @@
 </head>
 <body>
     <div class="receipt-container">
-        <a href="{{ route('home') }}" class="back-button">
+        <a href="{{ route('payment.status.final') }}" class="back-button">
             <span class="back-arrow">←</span> Back
         </a>
-        
+
+
         <div class="receipt">
             <div class="receipt-header">
                 <div class="logo">🐟</div>
@@ -217,19 +220,19 @@
             <div class="receipt-details">
                 <div class="receipt-row">
                     <div>Transaction ID:</div>
-                    <div>KFD-12345678</div>
+                    <div>{{ $transaction->transaction_code }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Date:</div>
-                    <div>19/05/2023</div>
+                    <div>{{ $transaction->created_at->format('d/m/Y') }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Time:</div>
-                    <div>14:30:25</div>
+                    <div>{{ $transaction->created_at->format('H:i:s') }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Reservation:</div>
-                    <div>Table for 4</div>
+                    <div>{{ $transaction->reservation->table_name ?? 'N/A' }}</div>
                 </div>
             </div>
 
@@ -241,26 +244,14 @@
                     <div class="item-qty">Qty</div>
                     <div class="item-price">Price</div>
                 </div>
+
+                @foreach ($transaction->items as $item)
                 <div class="item-row">
-                    <div class="item-name">Seafood Platter</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">Rp850,000</div>
+                    <div class="item-name">{{ $item->name }}</div>
+                    <div class="item-qty">{{ $item->quantity }}</div>
+                    <div class="item-price">Rp{{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
                 </div>
-                <div class="item-row">
-                    <div class="item-name">Grilled Kerapu</div>
-                    <div class="item-qty">2</div>
-                    <div class="item-price">Rp1,200,000</div>
-                </div>
-                <div class="item-row">
-                    <div class="item-name">Lobster Soup</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">Rp450,000</div>
-                </div>
-                <div class="item-row">
-                    <div class="item-name">Premium Wine</div>
-                    <div class="item-qty">1</div>
-                    <div class="item-price">Rp200,000</div>
-                </div>
+                @endforeach
             </div>
 
             <div class="dotted-line"></div>
@@ -268,26 +259,26 @@
             <div class="subtotal-section">
                 <div class="receipt-row">
                     <div>Subtotal:</div>
-                    <div>Rp2,700,000</div>
+                    <div>Rp{{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Tax (10%):</div>
-                    <div>Rp69,137</div>
+                    <div>Rp{{ number_format($transaction->tax, 0, ',', '.') }}</div>
                 </div>
                 <div class="receipt-row total-row">
                     <div>TOTAL:</div>
-                    <div>Rp2,769,137</div>
+                    <div>Rp{{ number_format($transaction->total, 0, ',', '.') }}</div>
                 </div>
             </div>
 
             <div class="payment-info">
                 <div class="receipt-row">
                     <div>Payment Method:</div>
-                    <div>E-Wallet Dana</div>
+                    <div>{{ $transaction->payment_method }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Status:</div>
-                    <div>PAID</div>
+                    <div>{{ strtoupper($transaction->status) }}</div>
                 </div>
             </div>
 
@@ -304,13 +295,14 @@
             </div>
 
             <div class="barcode">
-                *KFD12345678*
+                *{{ strtoupper($transaction->transaction_code) }}*
             </div>
 
             <div class="button-container">
-                <button onclick="window.location.href='{{ route('menu') }}'" class="button">BACK</button>
+                <button onclick="window.location.href='{{ route('payment.status.final') }}'" class="button">BACK</button>
                 <button onclick="window.print()" class="button">EXPORT TO PDF</button>
             </div>
+
         </div>
     </div>
 </body>

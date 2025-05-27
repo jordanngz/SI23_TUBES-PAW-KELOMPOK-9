@@ -40,39 +40,51 @@
             <div class="payment-status {{ $transaction->status }}">{{ ucfirst($transaction->status) }}</div>
           </div>
 
-          <div class="payment-info">
-            <div class="payment-row">
-              <div>Date</div>
-              <div class="payment-value">{{ \Carbon\Carbon::parse($transaction->reservation->reserved_at)->format('F d, Y') }}</div>
-            </div>
+        <div class="payment-info">
+          <div class="payment-row">
+            <div>Date</div>
+            <div class="payment-value">{{ \Carbon\Carbon::parse($transaction->reservation->reserved_at)->format('F d, Y') }}</div>
+          </div>
 
-            <div class="payment-row">
-              <div>Table</div>
-              <div class="payment-value">
-                Table {{ $transaction->reservation->table->number }} ({{ $transaction->reservation->table->seats }} People)
-              </div>
-            </div>
-
-            <div class="payment-row">
-              <div>Subtotal</div>
-              <div class="payment-value">Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
-            </div>
-
-            <div class="payment-row">
-              <div>Service Charge</div>
-              <div class="payment-value">Rp {{ number_format($transaction->service_charge, 0, ',', '.') }}</div>
-            </div>
-
-            <div class="payment-row">
-              <div>Tax</div>
-              <div class="payment-value">Rp {{ number_format($transaction->tax, 0, ',', '.') }}</div>
-            </div>
-
-            <div class="payment-row">
-              <div><strong>Total</strong></div>
-              <div class="payment-value"><strong>Rp {{ number_format($transaction->total, 0, ',', '.') }}</strong></div>
+          <div class="payment-row">
+            <div>Table</div>
+            <div class="payment-value">
+              Table {{ $transaction->reservation->table->number }} ({{ $transaction->reservation->table->seats }} People)
             </div>
           </div>
+
+          <div class="payment-row">
+            <div>Subtotal</div>
+            <div class="payment-value">Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
+          </div>
+
+          <div class="payment-row">
+            <div>Service Charge</div>
+            <div class="payment-value">Rp {{ number_format($transaction->service_charge, 0, ',', '.') }}</div>
+          </div>
+
+          <div class="payment-row">
+            <div>Tax</div>
+            <div class="payment-value">Rp {{ number_format($transaction->tax, 0, ',', '.') }}</div>
+          </div>
+
+          <div class="payment-row">
+            <div><strong>Total</strong></div>
+            <div class="payment-value"><strong>Rp {{ number_format($transaction->total, 0, ',', '.') }}</strong></div>
+          </div>
+
+          {{-- Tambahan informasi reservasi --}}
+          <div class="payment-row" style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
+            <div><strong>Reserved By</strong></div>
+            <div class="payment-value">{{ $transaction->reservation->user->name ?? 'Unknown' }}</div>
+          </div>
+
+          <div class="payment-row">
+            <div><strong>Reservation ID</strong></div>
+            <div class="payment-value">#{{ $transaction->reservation->id }}</div>
+          </div>
+        </div>
+
 
           <div class="payment-actions">
             <button class="cancel-btn">Cancel Reservation</button>
@@ -80,7 +92,9 @@
             @if ($transaction->status === 'pending')
               <a href="{{ route('checkoutByCode', ['code' => $transaction->transaction_code]) }}" class="pay-btn">Pay Bills</a>
             @elseif ($transaction->status === 'paid')
-              <button class="pay-btn">Seat Confirmation</button>
+              <a href="{{ route('confirm.view', ['transactionCode' => $transaction->transaction_code]) }}" class="pay-btn">
+                  Seat Confirmation
+              </a>
             @endif
           </div>
         </div>

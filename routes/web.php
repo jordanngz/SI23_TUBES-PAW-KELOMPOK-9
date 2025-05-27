@@ -75,6 +75,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payment/update-dana', [CheckoutController::class, 'updateDana'])->name('payment.update.dana');
     Route::post('/payment/update-credit', [CheckoutController::class, 'updateCredit'])->name('payment.update.credit');
 
+    Route::post('/reserve/temp', [SeatController::class, 'tempReserve'])->name('reserve.temp');
+    Route::post('/reserve/confirm', [SeatController::class, 'confirmReservation'])->name('confirm.reservation');
+
+// receipt
+    Route::get('/receipt/{id}', [receipt_controller::class, 'showReceipt'])->name('receipt.show');
+
+// Confirm 
+    Route::get('/confirm/{transactionCode}', [CheckoutController::class, 'confirmView'])->name('confirm.view');
+
+
 
 
 

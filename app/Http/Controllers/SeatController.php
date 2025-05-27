@@ -13,36 +13,72 @@ class SeatController extends Controller
     public function index()
     {
         $tables = Table::all();
-        $userReservation = Reservation::where('user_id', Auth::id())->latest()->first();
+        $userReservation = session('temp_reservation');
+
+        if ($userReservation) {
+            // Ubah ke object agar bisa diakses dengan ->
+            $userReservation = json_decode(json_encode($userReservation)); // aman untuk casting nested
+        }
 
         return view('auth.seat', compact('tables', 'userReservation'));
     }
 
-    // Simpan pilihan meja ke database
-    public function reserve(Request $request)
+    // Simpan pilihan meja ke session sementara
+    public function tempReserve(Request $request)
     {
         $request->validate([
             'table_id' => 'required|exists:tables,id',
+            'reserved_at' => 'required|date',
         ]);
 
         $table = Table::find($request->table_id);
 
-        // Cek apakah meja sudah direservasi
         if ($table->status === 'reserved') {
             return response()->json(['message' => 'This table is already reserved.'], 409);
         }
 
-        // Update status meja
+        // Simpan ke session sebagai array, agar serializable
+        session([
+            'temp_reservation' => [
+                'table_id' => $table->id,
+                'table' => [
+                    'id' => $table->id,
+                    'number' => $table->number ?? 'unknown',
+                    'seats' => $table->seats ?? 0,
+                ],
+                'reserved_at' => $request->reserved_at,
+            ]
+        ]);
+
+        return response()->json(['message' => 'Table temporarily selected.']);
+    }
+
+    // Simpan reservasi permanen saat payment sukses
+    public function confirmReservation()
+    {
+        $temp = session('temp_reservation');
+
+        if (!$temp) {
+            return response()->json(['message' => 'No reservation data found.'], 404);
+        }
+
+        $table = Table::find($temp['table_id']);
+
+        if ($table->status === 'reserved') {
+            return response()->json(['message' => 'This table is already reserved.'], 409);
+        }
+
         $table->status = 'reserved';
         $table->save();
 
-        // Simpan reservasi baru
         Reservation::create([
             'user_id' => Auth::id(),
             'table_id' => $table->id,
-            'reserved_at' => now(),
+            'reserved_at' => $temp['reserved_at'],
         ]);
 
-        return response()->json(['message' => 'Table reserved successfully.']);
+        session()->forget('temp_reservation');
+
+        return response()->json(['message' => 'Reservation confirmed.']);
     }
 }

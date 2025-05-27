@@ -60,6 +60,7 @@
             <button class="pay-button dana-button" id="dana-pay">Pay with DANA</button>
         </div>
 
+        <!-- PIN Modal -->
         <div class="modal" id="pin-modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -77,6 +78,7 @@
             </div>
         </div>
 
+        <!-- Success Modal -->
         <div class="success-modal dana-success" id="success-modal">
             <div class="success-content">
                 <div class="back-button">&larr; Back</div>
@@ -104,9 +106,11 @@
     document.getElementById('dana-pay').onclick = () => {
         document.getElementById('pin-modal').style.display = 'flex';
     };
+
     document.querySelector('.close-modal').onclick = () => {
         document.getElementById('pin-modal').style.display = 'none';
     };
+
     document.querySelector('.submit-pin').onclick = () => {
         fetch("{{ route('payment.confirm', ['transaction' => $transaction->transaction_code]) }}", {
             method: 'POST',
@@ -117,14 +121,15 @@
             body: JSON.stringify({})
         }).then(res => res.json())
         .then(data => {
-            if(data.success) {
+            if (data.success) {
                 document.getElementById('pin-modal').style.display = 'none';
                 document.getElementById('success-modal').style.display = 'flex';
             } else {
                 alert("Payment failed");
             }
-        });
+        }).catch(() => alert('Payment request failed'));
     };
+
     document.getElementById('toggle-detail').onclick = function () {
         const d = document.getElementById('transaction-details');
         const data = document.querySelector('.amount-container').dataset;
@@ -137,11 +142,13 @@
         `;
         d.style.display = d.style.display === 'none' ? 'block' : 'none';
     };
+
     document.querySelector('.back-button').onclick = () => {
         location.href = "{{ route('payment.status.final') }}";
     };
+
     document.getElementById('view-transaction-button').onclick = () => {
-        location.href = "{{ route('payment.receipt') }}";
+        location.href = "{{ route('payment.receipt', ['transaction' => $transaction->transaction_code]) }}";
     };
 </script>
 </body>
