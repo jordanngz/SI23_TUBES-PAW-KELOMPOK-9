@@ -3,47 +3,79 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLoginForm() {
+    // Metode untuk menampilkan form login
+    public function showLoginForm()
+    {
         return view('auth.login');
     }
 
-    public function login(Request $request) {
+    // Metode untuk proses login
+    public function login(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Buat credentials untuk Auth::attempt
         $credentials = $request->only('email', 'password');
+
+        // Coba login
         if (Auth::attempt($credentials)) {
-            return redirect('/mode');
+            // Jika berhasil login, redirect ke dashboard
+            if (Auth::user()->role == "admin") {
+                return view('admin.dashboardAdmin');
+            }else if (Auth::user()->role == "user") {
+                return view('auth.mode');
+            }
         }
-        return back()->with('status', 'Login gagal, periksa kembali email & password');
+
+        // Jika gagal login, kembali ke halaman login dengan pesan error
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput($request->except('password'));
     }
 
-    public function showRegisterForm() {
+    // Metode untuk menampilkan form register
+    public function showRegisterForm()
+    {
         return view('auth.register');
     }
 
-    public function register(Request $request) {
+    // Metode untuk proses register
+    public function register(Request $request)
+    {
+        // Validasi input
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
+        // Buat user baru
+        $user = \App\Models\User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user'
+            'password' => bcrypt($request->password),
+            'role' => 'user', // Default role adalah user
         ]);
 
-        return redirect('/login')->with('status', 'Registrasi berhasil, silakan login.');
+        // Login user yang baru dibuat
+        Auth::login($user);
+
+        // Redirect ke dashboard
+        return redirect()->route('dashboard');
     }
 
-    public function logout() {
+    // Metode untuk logout
+    public function logout()
+    {
         Auth::logout();
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

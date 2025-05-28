@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\receipt_controller; // tambahkan ini jika belum
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +38,10 @@ Route::get('/dashboard', function () {
 | 👑 ADMIN ROUTES
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', fn () => view('admin.dashboardAdmin'))->name('dashboard');
+    Route::get('/edit-meja', fn () => view('admin.edit-meja'))->name('editMeja');
+    Route::get('/edit-menu', fn () => view('admin.edit-menu'))->name('editMenu');
 });
 
 /*
@@ -71,21 +74,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment/status/final', [CheckoutController::class, 'statusFinal'])->name('payment.status.final');
     Route::post('/payment/confirm', [CheckoutController::class, 'confirmTransaction'])->name('payment.confirm');
     Route::get('/checkout/{code}', [CheckoutController::class, 'checkoutByCode'])->name('checkoutByCode');
-// Untuk form update dari halaman checkout
+
+    // Untuk form update dari halaman checkout
     Route::post('/payment/update-dana', [CheckoutController::class, 'updateDana'])->name('payment.update.dana');
     Route::post('/payment/update-credit', [CheckoutController::class, 'updateCredit'])->name('payment.update.credit');
 
     Route::post('/reserve/temp', [SeatController::class, 'tempReserve'])->name('reserve.temp');
     Route::post('/reserve/confirm', [SeatController::class, 'confirmReservation'])->name('confirm.reservation');
 
-// receipt
+    // receipt
     Route::get('/receipt/{id}', [receipt_controller::class, 'showReceipt'])->name('receipt.show');
 
-// Confirm 
+    // Confirm
     Route::get('/confirm/{transactionCode}', [CheckoutController::class, 'confirmView'])->name('confirm.view');
-
-
-
-
-
 });
