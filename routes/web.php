@@ -44,6 +44,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/edit-menu', fn () => view('admin.edit-menu'))->name('editMenu');
 });
 
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/edit-meja', [TableController::class, 'index'])->name('editMeja');
+    Route::post('/table', [TableController::class, 'store'])->name('table.store');
+    Route::put('/table/{table}', [TableController::class, 'update'])->name('table.update');
+    Route::delete('/table/{table}', [TableController::class, 'destroy'])->name('table.delete');
+});
+
 /*
 |--------------------------------------------------------------------------
 | 👤 USER ROUTES

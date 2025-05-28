@@ -9,7 +9,5 @@ class Table extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'number', 'status',
-    ];
+    protected $fillable = ['table_number', 'seats', 'status'];
 }
