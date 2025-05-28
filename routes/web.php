@@ -85,6 +85,6 @@ Route::middleware(['auth'])->group(function () {
     // receipt
     Route::get('/receipt/{id}', [receipt_controller::class, 'showReceipt'])->name('receipt.show');
 
-    // Confirm
+    // Confirmm
     Route::get('/confirm/{transactionCode}', [CheckoutController::class, 'confirmView'])->name('confirm.view');
 });
