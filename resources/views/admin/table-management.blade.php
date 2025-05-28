@@ -35,7 +35,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
+        <!-- Sidebarrr -->
         <div class="col-md-3 col-lg-2 px-0 sidebar">
             <div class="d-flex flex-column flex-shrink-0 p-3">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
