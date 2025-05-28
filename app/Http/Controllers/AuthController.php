@@ -26,13 +26,15 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         // Coba login
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
             // Jika berhasil login, redirect ke dashboard
             if (Auth::user()->role == "admin") {
-                return view('admin.dashboardAdmin');
+                return view('admin.index');
             }else if (Auth::user()->role == "user") {
                 return view('auth.mode');
             }
+            return redirect()->intended('/');
         }
 
         // Jika gagal login, kembali ke halaman login dengan pesan error
@@ -62,7 +64,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => 'user', // Default role adalah user
+            'role' => 'user',
         ]);
 
         // Login user yang baru dibuat
