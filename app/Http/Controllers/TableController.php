@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
+
+    public function showTableManagement()
+    {
+        return view('admin.table-management');
+    }
+
     public function index() {
         $tables = Table::all();
         return view('admin.edit-meja', compact('tables'));

@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\receipt_controller; // tambahkan ini jika belum
+use App\Http\Controllers\TableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::get('/dashboard', function () {
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', fn () => view('admin.dashboardAdmin'))->name('dashboard');
+    Route::get('/table-management', fn () => view('admin.table-management'))->name('table.management');
     Route::get('/edit-meja', fn () => view('admin.edit-meja'))->name('editMeja');
     Route::get('/edit-menu', fn () => view('admin.edit-menu'))->name('editMenu');
 });

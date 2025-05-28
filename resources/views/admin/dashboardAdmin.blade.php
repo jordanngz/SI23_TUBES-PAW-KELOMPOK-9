@@ -332,7 +332,7 @@
                             </div>
                             
                             <div class="col-6 col-md-4 col-lg-3">
-                                <a href="#" class="text-decoration-none">
+                                <a href="{{ route('admin.table.management') }}" class="text-decoration-none">
                                     <div class="shortcut-card p-3 text-center">
                                         <i class="fas fa-utensils shortcut-icon text-primary mb-2 fs-2"></i>
                                         <p class="mb-0 fw-medium">Menu Management</p>
