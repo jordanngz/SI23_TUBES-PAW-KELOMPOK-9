@@ -36,43 +36,53 @@
         </div>
 
         <div class="sidebar-section">   
-            <h4>Your Reservation</h4>
-            @if ($userReservation)
-                <div class="reservation-details" style="display:block">
-                    <div class="reservation-item">
-                        <span>Table:</span> 
-                        <span id="selected-table">Table {{ $userReservation->table->number ?? 'N/A' }}</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Date:</span> 
-                        <span id="selected-date">{{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Time:</span> 
-                        <span id="selected-time">{{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('H:i') }}</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Guests:</span> 
-                        <span id="selected-guests">{{ Auth::user()->name }}</span>
-                    </div>
+        <h4>Your Reservation</h4>
+
+        @if ($userReservation && $userReservation->table)
+            <div class="reservation-details" style="display:block">
+                <div class="reservation-item">
+                    <span>Table:</span> 
+                    <span id="selected-table">
+                         {{ $userReservation->table->table_number ?? 'N/A' }}
+                    </span>
                 </div>
-            @else
-                <p class="reservation-status">No table selected yet</p>
-                <div class="reservation-details">
-                    <div class="reservation-item">
-                        <span>Table:</span> <span id="selected-table">-</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Date:</span> <span id="selected-date">-</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Time:</span> <span id="selected-time">-</span>
-                    </div>
-                    <div class="reservation-item">
-                        <span>Guests:</span> <span id="selected-guests">-</span>
-                    </div>
+                <div class="reservation-item">
+                    <span>Date:</span> 
+                    <span id="selected-date">
+                        {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}
+                    </span>
                 </div>
-            @endif
+                <div class="reservation-item">
+                    <span>Time:</span> 
+                    <span id="selected-time">
+                        {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('H:i') }}
+                    </span>
+                </div>
+                <div class="reservation-item">
+                    <span>Guests:</span> 
+                    <span id="selected-guests">
+                        {{ Auth::user()->name }}
+                    </span>
+                </div>
+            </div>
+        @else
+            <p class="reservation-status">No table selected yet</p>
+            <div class="reservation-details">
+                <div class="reservation-item">
+                    <span>Table:</span> <span id="selected-table">-</span>
+                </div>
+                <div class="reservation-item">
+                    <span>Date:</span> <span id="selected-date">-</span>
+                </div>
+                <div class="reservation-item">
+                    <span>Time:</span> <span id="selected-time">-</span>
+                </div>
+                <div class="reservation-item">
+                    <span>Guests:</span> <span id="selected-guests">-</span>
+                </div>
+            </div>
+        @endif
+
 
             <a href="{{ route('menu') }}">
                 <button class="continue-btn">Continue to Menu</button>
@@ -130,7 +140,7 @@
                             <img src="https://source.unsplash.com/300x200/?restaurant,table,{{ $table->id }}" alt="Table {{ $table->id }}">
                         </div>
                         <div class="table-info">
-                            <h3>Table {{ $table->number }}</h3>
+                            <h3>Table {{ $table->table_number }}</h3>
                             <p>Suitable for {{ $table->seats }} people</p>
                             <div class="table-status {{ $table->status }}">
                                 {{ $table->status === 'available' ? 'Available' : 'Already Reserved' }}

@@ -43,7 +43,7 @@ class SeatController extends Controller
                 'table_id' => $table->id,
                 'table' => [
                     'id' => $table->id,
-                    'number' => $table->number ?? 'unknown',
+                    'table_number' => $table->table_number ?? 'unknown',
                     'seats' => $table->seats ?? 0,
                 ],
                 'reserved_at' => $request->reserved_at,

@@ -6,6 +6,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\receipt_controller; // tambahkan ini jika belum
+use App\Http\Controllers\TableController; // tambahkan ini jika belum
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', function () {
     $role = auth()->user()->role ?? 'guest';
     return match ($role) {
-        'admin' => redirect()->route('admin.dashboard'),
+        'admin' => redirect()->route('admin.index'),
         'user' => redirect()->route('mode'),
         default => abort(403, 'Unauthorized'),
     };
@@ -39,17 +41,14 @@ Route::get('/dashboard', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', fn () => view('admin.dashboardAdmin'))->name('dashboard');
-    Route::get('/edit-meja', fn () => view('admin.edit-meja'))->name('editMeja');
-    Route::get('/edit-menu', fn () => view('admin.edit-menu'))->name('editMenu');
-});
-
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
+    Route::get('/table-management', [AdminController::class, 'tableManagement'])->name('table.management');
     Route::get('/edit-meja', [TableController::class, 'index'])->name('editMeja');
     Route::post('/table', [TableController::class, 'store'])->name('table.store');
     Route::put('/table/{table}', [TableController::class, 'update'])->name('table.update');
     Route::delete('/table/{table}', [TableController::class, 'destroy'])->name('table.delete');
 });
+
 
 /*
 |--------------------------------------------------------------------------

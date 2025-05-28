@@ -11,7 +11,7 @@ class TableSeeder extends Seeder
     {
         for ($i = 1; $i <= 6; $i++) {
             Table::create([
-                'table_number' => 'Table ' . $i,
+                'table_number' => ' ' . $i,
                 'seats' => 4,
                 'status' => $i % 2 == 1 ? 'reserved' : 'available', // ✅ hanya 'reserved' atau 'available'
             ]);

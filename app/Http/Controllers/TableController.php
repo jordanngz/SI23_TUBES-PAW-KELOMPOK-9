@@ -40,8 +40,12 @@ class TableController extends Controller
         return back()->with('success', 'Table updated successfully.');
     }
 
-    public function destroy(Table $table) {
+    public function destroy($id)
+    {
+        $table = Table::findOrFail($id);
         $table->delete();
-        return back()->with('success', 'Table deleted successfully.');
+
+        return redirect()->route('admin.table.management')->with('success', 'Meja berhasil dihapus.');
     }
+
 }
