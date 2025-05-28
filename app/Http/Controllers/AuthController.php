@@ -29,7 +29,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Jika berhasil login, redirect ke dashboard
             if (Auth::user()->role == "admin") {
-                return view('admin.dashboardAdmin');
+                return view('admin.index');
             }else if (Auth::user()->role == "user") {
                 return view('auth.mode');
             }
