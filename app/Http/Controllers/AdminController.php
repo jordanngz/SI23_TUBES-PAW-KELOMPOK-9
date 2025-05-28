@@ -3,21 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function index()
     {
-        return view('admin.dashboard');
+        return view('admin.index', compact('role'));
     }
-
-    public function editMeja()
+    public function updateRole(Request $request)
     {
-        return view('admin.edit-meja');
+        $validated = $request->validate([
+            'role' => 'required|in:admin,'
+        ]);
+        
+        auth()->user()->update([
+            'role' => $validated['role']
+        ]);
+        
+        return back()->with('success', 'Role berhasil diubah');
     }
-
-    public function editMenu()
-    {
-        return view('admin.edit-menu');
-    }
+    
 }

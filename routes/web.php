@@ -6,13 +6,15 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\receipt_controller; // tambahkan ini jika belum
+use App\Http\Controllers\TableController; // tambahkan ini jika belum
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
 | 🔐 AUTH ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn () => redirect()->route('login'));
+Route::get('/', fn() => redirect()->route('login'));
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -28,7 +30,7 @@ Route::get('/dashboard', function () {
     $role = auth()->user()->role ?? 'guest';
     return match ($role) {
         'admin' => redirect()->route('admin.dashboard'),
-        'user'  => redirect()->route('mode'),
+        'user' => redirect()->route('mode'),
         default => abort(403, 'Unauthorized'),
     };
 })->middleware('auth')->name('dashboard');
@@ -39,9 +41,11 @@ Route::get('/dashboard', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', fn () => view('admin.dashboardAdmin'))->name('dashboard');
-    Route::get('/edit-meja', fn () => view('admin.edit-meja'))->name('editMeja');
-    Route::get('/edit-menu', fn () => view('admin.edit-menu'))->name('editMenu');
+    Route::get('/edit-menu', fn() => view('admin.edit-menu'))->name('editMenu');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -57,8 +61,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
-    Route::get('/mode', fn () => view('auth.mode'))->name('mode');
-    Route::get('/home', fn () => view('auth.home'))->name('home');
+    Route::get('/mode', fn() => view('auth.mode'))->name('mode');
+    Route::get('/home', fn() => view('auth.home'))->name('home');
 
     // Seat Reservation
     Route::get('/seat', [SeatController::class, 'index'])->name('reserve');
@@ -92,6 +96,6 @@ Route::middleware(['auth'])->group(function () {
     // receipt
     Route::get('/receipt/{id}', [receipt_controller::class, 'showReceipt'])->name('receipt.show');
 
-// Confirm 
+    // Confirm 
     Route::get('/confirm/{transactionCode}', [CheckoutController::class, 'confirmView'])->name('confirm.view');
 });

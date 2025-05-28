@@ -62,7 +62,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => 'user', // Default role adalah user
+            'role' => 'required|in:admin,user',
         ]);
 
         // Login user yang baru dibuat
