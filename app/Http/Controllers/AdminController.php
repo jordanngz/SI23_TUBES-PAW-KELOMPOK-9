@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index', compact('role'));
+        return view('admin.index');
     }
     public function updateRole(Request $request)
     {
