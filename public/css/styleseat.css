@@ -476,6 +476,12 @@ h1, h2, h3, h4 {
     border: 1px solid #c3e6cb;
 }
 
+.payment-status.confirmed {
+    background-color: #d4edda;
+    color: #1cca45;
+    border: 1px solid #c3e6cb;
+}
+
 .payment-info {
     margin-top: 20px;
 }

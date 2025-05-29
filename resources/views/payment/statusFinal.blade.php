@@ -15,8 +15,7 @@
       <h4>Reservation</h4>
       <ul class="sidebar-menu">
         <li><a href="{{ route('reserve') }}">Back to Seat Selection</a></li>
-        <li class="active"><a href="#">Payment Status</a></li>
-        <li><a href="#">Payment History</a></li>
+        <li><a href="{{ route('payment.history')}}">Payment History</a></li>
       </ul>
     </div>
   </div>
@@ -92,9 +91,9 @@
             @if ($transaction->status === 'pending')
               <a href="{{ route('checkoutByCode', ['code' => $transaction->transaction_code]) }}" class="pay-btn">Pay Bills</a>
             @elseif ($transaction->status === 'paid')
-              <a href="{{ route('confirm.view', ['transactionCode' => $transaction->transaction_code]) }}" class="pay-btn">
-                  Seat Confirmation
-              </a>
+              <a href="{{ route('confirm.view', ['transactionCode' => $transaction->transaction_code]) }}" class="pay-btn"> Seat Confirmation </a>
+            @elseif ($transaction->status === 'confirmed')
+              <a href="#" class="pay-btn disabled" style="pointer-events: none; opacity: 0.6;">Reservation Confirmed</a>
             @endif
           </div>
         </div>

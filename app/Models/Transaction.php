@@ -19,6 +19,8 @@ class Transaction extends Model
         'service_charge',
         'tax',
         'total',
+        'phone',
+        'special_request'
     ];
 
     public function items()

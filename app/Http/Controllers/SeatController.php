@@ -37,7 +37,12 @@ class SeatController extends Controller
             return response()->json(['message' => 'This table is already reserved.'], 409);
         }
 
-        // Simpan ke session sebagai array, agar serializable
+        // Debugging (bisa dihapus nanti)
+        if (!$request->reserved_at) {
+            return response()->json(['message' => 'reserved_at kosong!'], 422);
+        }
+
+        // Simpan ke session
         session([
             'temp_reservation' => [
                 'table_id' => $table->id,

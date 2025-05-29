@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\receipt_controller; // tambahkan ini jika belum
 use App\Http\Controllers\TableController; // tambahkan ini jika belum
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ConfirmationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,10 +75,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/credit', [CheckoutController::class, 'credit'])->name('payment.credit');
     Route::get('/checkout/dana', [CheckoutController::class, 'dana'])->name('payment.dana');
     Route::get('checkout/receipt', [CheckoutController::class, 'receipt'])->name('payment.receipt');
-    Route::get('checkout/status', [CheckoutController::class, 'status'])->name('payment.status');
     Route::post('/payment/submit', [CheckoutController::class, 'submitTransaction'])->name('payment.submit');
     Route::post('/complete-order', [CheckoutController::class, 'completeOrder'])->name('complete.order');
     Route::get('/payment/status/final', [CheckoutController::class, 'statusFinal'])->name('payment.status.final');
+    Route::get('/payment/history', [CheckoutController::class, 'showHistory'])->name('payment.history');
     Route::post('/payment/confirm', [CheckoutController::class, 'confirmTransaction'])->name('payment.confirm');
     Route::get('/checkout/{code}', [CheckoutController::class, 'checkoutByCode'])->name('checkoutByCode');
 
@@ -88,9 +89,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reserve/temp', [SeatController::class, 'tempReserve'])->name('reserve.temp');
     Route::post('/reserve/confirm', [SeatController::class, 'confirmReservation'])->name('confirm.reservation');
 
-    // receipt
-    Route::get('/receipt/{id}', [receipt_controller::class, 'showReceipt'])->name('receipt.show');
-
     // Confirm 
     Route::get('/confirm/{transactionCode}', [CheckoutController::class, 'confirmView'])->name('confirm.view');
+    Route::post('/confirmation/update', [ConfirmationController::class, 'storeContact'])->name('confirmation.store');
+    Route::post('/confirmation/confirm-status', [ConfirmationController::class, 'confirmStatus'])->name('confirmation.status.confirm');
+    Route::post('/confirmation/finalize', [ConfirmationController::class, 'finalizeConfirmation'])->name('confirmation.finalize');
+
+
 });

@@ -29,9 +29,7 @@
                 <li class="active"><a href="#table-selection">Table Selection</a></li>
                 <li><a href="{{ route('menu') }}">Menu Selection</a></li>
                 <li><a href="#table-layout">Table Layout</a></li>
-                <li><a href="#special-requests">Special Requests</a></li>
                 <li><a href="{{ route('payment.status.final') }}">Payment Status</a></li>
-                <li><a href="#confirmation">Confirmation</a></li>
             </ul>
         </div>
 
@@ -150,16 +148,8 @@
                 @endforeach
             </div>
 
-            <div class="section-title" id="special-requests">
-                <h2>Special Requests</h2>
-                <p>Let us know if you have any special requirements</p>
-            </div>
-            <div class="special-requests-form">
-                <textarea placeholder="Please let us know if you have any special requests..."></textarea>
-            </div>
-
             <div class="reservation-actions">
-                <button class="back-btn">Back</button>
+                <button class="back-btn" onclick="window.location.href='{{ route('home') }}'">Back</button>
                 <button class="next-btn">Proceed to Menu Selection</button>
             </div>
         </div>

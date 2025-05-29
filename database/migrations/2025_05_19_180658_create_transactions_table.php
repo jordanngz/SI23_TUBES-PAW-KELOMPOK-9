@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->decimal('total', 10, 2);
             $table->json('temp_reservation')->nullable(); // <-- tambahkan ini
             $table->timestamps();
+            $table->string('phone')->nullable();
+            $table->text('special_request')->nullable();
         });
 
     }

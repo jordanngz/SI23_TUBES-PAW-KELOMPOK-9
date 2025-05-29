@@ -200,4 +200,11 @@ class CheckoutController extends Controller
 
     }
 
+    public function showHistory()
+    {
+        $transactions = Transaction::where('user_id', auth()->id())->latest()->get(); // atau disesuaikan
+        return view('payment.history', compact('transactions'));
+    }
+
+
 }
