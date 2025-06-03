@@ -37,7 +37,7 @@ Route::get('/dashboard', function () {
     $role = auth()->user()->role ?? 'guest';
     return match ($role) {
         'admin' => redirect()->route('admin.index'),
-        'user' => redirect()->route('mode'),
+        'user' => redirect()->route('home'),
         default => abort(403, 'Unauthorized'),
     };
 })->middleware('auth')->name('dashboard');
