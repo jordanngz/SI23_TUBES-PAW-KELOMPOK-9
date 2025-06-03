@@ -68,7 +68,6 @@
                                 <select name="role" class="form-select" required>
                                     <option value="">Role</option>
                                     <option value="admin">Admin</option>
-                                    <option value="user">User</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
