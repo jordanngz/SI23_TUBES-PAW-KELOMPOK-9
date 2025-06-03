@@ -25,7 +25,7 @@ class OrderController extends Controller
         $order->status = $request->status;
         $order->save();
 
-        return redirect()->route('admin.orders')->with('success', 'Order status updated!');
+        return redirect()->route('admin.order')->with('success', 'Order status updated!');
     }
     public function store(Request $request)
     {

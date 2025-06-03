@@ -68,7 +68,7 @@
                     <li><a href="{{ route('admin.table.management') }}" class="nav-link active"><i class="fas fa-chair shortcut-icon me-2"></i>Table Management</a></li>
                     <li><a href="{{ route('admin.menu.management') }}" class="nav-link"><i class="fas fa-utensils me-2"></i>Menu Management</a></li>
                     <li><a href="{{ route('admin.transactions.index') }}" class="nav-link"><i class="fas fa-calendar-check me-2"></i>Reservations</a></li>
-                    <li><a href="{{ route('admin.orders') }}" class="nav-link"><i class="fas fa-shopping-cart me-2"></i>Orders</a></li>
+                    <li><a href="{{ route('admin.order') }}" class="nav-link"><i class="fas fa-shopping-cart me-2"></i>Orders</a></li>
                     <li><a href="{{ route('admin.reports') }}" class="nav-link"><i class="fas fa-chart-line me-2"></i>Reports</a></li>
                     <li><a href="{{ route('admin.users') }}" class="nav-link"><i class="fas fa-users me-2"></i>User Management</a></li>
                 </ul>

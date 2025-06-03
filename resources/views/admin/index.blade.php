@@ -174,7 +174,7 @@
                                 </a>
                             </div>
                             <div class="col-6 col-md-4 col-lg-3">
-                                <a href="{{ route('admin.orders') }}" class="text-decoration-none">
+                                <a href="{{ route('admin.order') }}" class="text-decoration-none">
                                     <div class="shortcut-card p-3 text-center">
                                         <i class="fas fa-shopping-cart shortcut-icon text-primary mb-2 fs-2"></i>
                                         <p class="mb-0 fw-medium">Orders</p>
@@ -252,8 +252,8 @@
                                         <h6 class="mb-0 fw-bold">Payments & Transactions</h6>
                                     </div>
                                     <ul class="ps-3 mb-0">
-                                        <li><a href="{{ route('admin.orders') }}" class="text-decoration-none">Transaction History</a></li>
-                                        <li><a href="{{ route('admin.orders') }}" class="text-decoration-none">Monitor Payments</a></li>
+                                        <li><a href="{{ route('admin.order') }}" class="text-decoration-none">Transaction History</a></li>
+                                        <li><a href="{{ route('admin.order') }}" class="text-decoration-none">Monitor Payments</a></li>
                                         <li><a href="{{ route('admin.reports') }}" class="text-decoration-none">Revenue Reports</a></li>
                                     </ul>
                                 </div>
