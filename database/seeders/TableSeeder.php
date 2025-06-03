@@ -14,7 +14,7 @@ class TableSeeder extends Seeder
                 'table_number' => ' ' . $i,
                 'seats' => 4,
                 'status' => $i % 2 == 1 ? 'reserved' : 'available', // ✅ hanya 'reserved' atau 'available'
-                'image' => 'table_images/Meja.jpg',
+                'image' => 'Meja.jpg',
             ]);
         }
     }
