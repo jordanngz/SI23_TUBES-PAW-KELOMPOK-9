@@ -77,7 +77,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Order Management
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('order');
-    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('aorders.create');
     Route::post('/admin/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 

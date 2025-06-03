@@ -63,7 +63,7 @@
                 <div class="card mb-4">
                     <div class="card-header">Create New Order</div>
                     <div class="card-body">
-                        <form action="{{ route('admin.order.store') }}" method="POST">
+                        <form action="{{ route('admin.orders.store') }}" method="POST">
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-4 mb-2">
@@ -148,7 +148,7 @@
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                     <td>
                                         @if($order->status != 'done')
-                                        <form action="{{ route('admin.order.updateStatus', $order->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('PATCH')
                                             <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
