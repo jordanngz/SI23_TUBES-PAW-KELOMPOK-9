@@ -683,7 +683,7 @@ a {
                 <div class="order-details">
                     @foreach ($transaction->items as $item)
                     <div class="order-item">
-                        <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
+                        <img src="{{ asset('images/' . $item->product->image) }}" alt="{{ $item->product->name }}">
                         <div class="item-details">
                             <h3>{{ $item->product->name }}</h3>
                             <p>{{ $item->product->description ?? '-' }}</p>

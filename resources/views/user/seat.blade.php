@@ -698,7 +698,7 @@ h1, h2, h3, h4 {
                          data-table="{{ $table->id }}"
                          data-status="{{ $table->status }}">
                         <div class="table-image">
-                           <img src="{{ asset('storage/' . $table->image) }}" alt="Table Image"> 
+                           <img src="{{ asset('images/' . $table->image) }}" alt="Table Image"> 
                         </div>
                         <div class="table-info">
                             <h3>Table {{ $table->table_number }}</h3>
