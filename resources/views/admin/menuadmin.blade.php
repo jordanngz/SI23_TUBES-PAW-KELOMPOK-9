@@ -101,11 +101,11 @@
                                     <td>{{ $product->description }}</td>
                                     <td>Rp {{ number_format($product->price, 2, ',', '.') }}</td>
                                     <td>
-                                        @if($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                                        @else
-                                            <span class="text-muted">No Image</span>
-                                        @endif
+                                    @if($product->image)
+                                        <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="max-width:120px; max-height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                    @else
+                                        <img src="https://via.placeholder.com/120x80?text=No+Image" alt="{{ $product->name }}" style="max-width:120px; max-height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                    @endif
                                     </td>
                                     <td>
                                         <!-- Edit Button -->
@@ -140,7 +140,9 @@
                                                                 <label>Image</label>
                                                                 <input type="file" name="image" class="form-control">
                                                                 @if($product->image)
-                                                                    <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" width="60" class="mt-2">
+                                                                    <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="max-width:120px; max-height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+                                                                @else
+                                                                    <img src="https://via.placeholder.com/120x80?text=No+Image" alt="{{ $product->name }}" style="max-width:120px; max-height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
                                                                 @endif
                                                                 <small class="text-muted d-block">Leave blank to keep current image.</small>
                                                             </div>

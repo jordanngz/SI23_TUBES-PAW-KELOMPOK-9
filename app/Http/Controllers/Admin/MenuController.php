@@ -26,13 +26,16 @@ class MenuController extends Controller
         $data = $request->only(['name', 'description', 'price']);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('menu_images', 'public');
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
         }
 
-            Product::create($data);
+        Product::create($data);
 
-            return redirect()->route('admin.menu.management')->with('success', 'Menu added!');
-        }
+        return redirect()->route('admin.menu.management')->with('success', 'Menu added!');
+    }
 
     public function update(Request $request, $id)
     {
@@ -48,10 +51,14 @@ class MenuController extends Controller
 
         if ($request->hasFile('image')) {
             // Optional: delete old image if exists
-            if ($product->image && \Storage::disk('public')->exists($product->image)) {
-                \Storage::disk('public')->delete($product->image);
+            $oldImage = public_path('images/'.$product->image);
+            if ($product->image && file_exists($oldImage)) {
+                unlink($oldImage);
             }
-            $data['image'] = $request->file('image')->store('menu_images', 'public');
+            $image = $request->file('image');
+            $imageName = time().'_'.$image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
         }
 
         $product->update($data);
@@ -59,10 +66,20 @@ class MenuController extends Controller
         return redirect()->route('admin.menu.management')->with('success', 'Menu updated!');
     }
 
-    public function destroy($id)
+        public function destroy($id)
     {
         $product = Product::findOrFail($id);
+
+        // Hapus gambar dari public/images jika ada
+        if ($product->image) {
+            $imagePath = public_path('images/' . $product->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
         $product->delete();
+
         return redirect()->route('admin.menu.management')->with('success', 'Menu deleted!');
     }
 }
