@@ -78,7 +78,7 @@
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-image">
-                            <img src="{{ $item->product->image ?? 'https://via.placeholder.com/300' }}" alt="{{ $item->product->name }}">
+                            <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}">
                         </div>
                         <div class="cart-item-details">
                             <h3>{{ $item->product->name }}</h3>

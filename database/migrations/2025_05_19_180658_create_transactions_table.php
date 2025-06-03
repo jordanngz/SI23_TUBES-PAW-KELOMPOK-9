@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->foreignId('reservation_id')->nullable()->constrained()->nullOnDelete();
             $table->string('transaction_code')->unique();
             $table->enum('payment_method', ['credit', 'dana', 'none'])->default('none');
-            $table->enum('status', ['pending', 'paid'])->default('pending');
+            $table->enum('status', ['pending', 'paid' , 'confirmed'])->default('pending');
             $table->decimal('subtotal', 10, 2);
             $table->decimal('service_charge', 10, 2);
             $table->decimal('tax', 10, 2);

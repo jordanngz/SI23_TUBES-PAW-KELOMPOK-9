@@ -32,7 +32,7 @@ class AuthController extends Controller
             if (Auth::user()->role == "admin") {
                 return view('admin.index');
             }else if (Auth::user()->role == "user") {
-                return view('auth.mode');
+                return redirect()->route('home');
             }
             return redirect()->intended('/');
         }
@@ -78,6 +78,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('home')->with('status', 'Anda telah berhasil logout.');
     }
 }

@@ -56,22 +56,22 @@
 
       <div class="payment-row">
         <div>Subtotal</div>
-        <div class="payment-value">Rp {{ number_format($txn->subtotal, 0, ',', '.') }}</div>
+        <div class="payment-value">$ {{ number_format($txn->subtotal, 0, ',', '.') }}</div>
       </div>
 
       <div class="payment-row">
         <div>Service Charge</div>
-        <div class="payment-value">Rp {{ number_format($txn->service_charge, 0, ',', '.') }}</div>
+        <div class="payment-value">$ {{ number_format($txn->service_charge, 0, ',', '.') }}</div>
       </div>
 
       <div class="payment-row">
         <div>Tax</div>
-        <div class="payment-value">Rp {{ number_format($txn->tax, 0, ',', '.') }}</div>
+        <div class="payment-value">$ {{ number_format($txn->tax, 0, ',', '.') }}</div>
       </div>
 
       <div class="payment-row">
         <div><strong>Total</strong></div>
-        <div class="payment-value"><strong>Rp {{ number_format($txn->total, 0, ',', '.') }}</strong></div>
+        <div class="payment-value"><strong>$ {{ number_format($txn->total, 0, ',', '.') }}</strong></div>
       </div>
 
       <div class="payment-row" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">

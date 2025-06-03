@@ -16,7 +16,7 @@ class CheckoutController extends Controller
             ->where('transaction_code', $code)
             ->where('user_id', auth()->id())
             ->firstOrFail();
-        return view('payment.credit', compact('transaction'));
+        return view('user.payment.credit', compact('transaction'));
     }
 
     public function dana(Request $request)
@@ -26,7 +26,7 @@ class CheckoutController extends Controller
             ->where('transaction_code', $code)
             ->where('user_id', auth()->id())
             ->firstOrFail();
-        return view('payment.dana', compact('transaction'));
+        return view('user.payment.dana', compact('transaction'));
     }
 
     public function receipt(Request $request)
@@ -36,7 +36,7 @@ class CheckoutController extends Controller
             ->where('transaction_code', $code)
             ->where('user_id', auth()->id())
             ->firstOrFail();
-        return view('payment.receipt', compact('transaction'));
+        return view('user.payment.receipt', compact('transaction'));
     }
 
     public function statusFinal()
@@ -45,7 +45,7 @@ class CheckoutController extends Controller
             ->where('user_id', auth()->id())
             ->whereIn('status', ['paid', 'pending'])
             ->latest()->get();
-        return view('payment.statusFinal', compact('transactions'));
+        return view('user.payment.statusFinal', compact('transactions'));
 
 
         $transactions = Transaction::with('reservation.table')
@@ -159,7 +159,7 @@ class CheckoutController extends Controller
             ->where('transaction_code', $code)
             ->where('user_id', auth()->id())
             ->firstOrFail();
-        return view('auth.checkout', compact('transaction'));
+        return view('user.payment.metode', compact('transaction'));
     }
 
     public function updateCredit(Request $request)
@@ -196,14 +196,14 @@ class CheckoutController extends Controller
     {
         $transaction = Transaction::with(['reservation.table', 'items'])->where('transaction_code', $transactionCode)->firstOrFail();
 
-        return view('checkout.confirm', compact('transaction'));
+        return view('user.checkout.confirm', compact('transaction'));
 
     }
 
     public function showHistory()
     {
         $transactions = Transaction::where('user_id', auth()->id())->latest()->get(); // atau disesuaikan
-        return view('payment.history', compact('transactions'));
+        return view('user.payment.history', compact('transactions'));
     }
 
 

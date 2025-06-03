@@ -23,7 +23,6 @@
   <div class="main-content">
     <div class="header">
       <h1>Payment Status</h1>
-      <input type="date" value="{{ now()->format('Y-m-d') }}" />
     </div>
 
     <div class="payment-container">
@@ -54,22 +53,37 @@
 
           <div class="payment-row">
             <div>Subtotal</div>
-            <div class="payment-value">Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
+            <div class="payment-value">$ {{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
           </div>
 
           <div class="payment-row">
             <div>Service Charge</div>
-            <div class="payment-value">Rp {{ number_format($transaction->service_charge, 0, ',', '.') }}</div>
+            <div class="payment-value">$ {{ number_format($transaction->service_charge, 0, ',', '.') }}</div>
           </div>
 
           <div class="payment-row">
             <div>Tax</div>
-            <div class="payment-value">Rp {{ number_format($transaction->tax, 0, ',', '.') }}</div>
+            <div class="payment-value">$ {{ number_format($transaction->tax, 0, ',', '.') }}</div>
+          </div>
+
+          <div class="payment-row">
+            <div>Payment Method</div>
+            <div class="payment-value">
+              @if($transaction->payment_method === 'credit')
+                Credit Card
+              @elseif($transaction->payment_method === 'dana')
+                DANA
+              @elseif($transaction->payment_method === 'none' || !$transaction->payment_method)
+                Not Selected
+              @else
+                {{ ucfirst($transaction->payment_method) }}
+              @endif
+            </div>
           </div>
 
           <div class="payment-row">
             <div><strong>Total</strong></div>
-            <div class="payment-value"><strong>Rp {{ number_format($transaction->total, 0, ',', '.') }}</strong></div>
+            <div class="payment-value"><strong>$ {{ number_format($transaction->total, 0, ',', '.') }}</strong></div>
           </div>
 
           {{-- Tambahan informasi reservasi --}}
@@ -83,7 +97,6 @@
             <div class="payment-value">#{{ $transaction->reservation->id }}</div>
           </div>
         </div>
-
 
           <div class="payment-actions">
             <button class="cancel-btn">Cancel Reservation</button>

@@ -249,7 +249,7 @@
                 <div class="item-row">
                     <div class="item-name">{{ $item->name }}</div>
                     <div class="item-qty">{{ $item->quantity }}</div>
-                    <div class="item-price">Rp{{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
+                    <div class="item-price">${{ number_format($item->price * $item->quantity, 0, ',', '.') }}</div>
                 </div>
                 @endforeach
             </div>
@@ -259,15 +259,15 @@
             <div class="subtotal-section">
                 <div class="receipt-row">
                     <div>Subtotal:</div>
-                    <div>Rp{{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
+                    <div>${{ number_format($transaction->subtotal, 0, ',', '.') }}</div>
                 </div>
                 <div class="receipt-row">
                     <div>Tax (10%):</div>
-                    <div>Rp{{ number_format($transaction->tax, 0, ',', '.') }}</div>
+                    <div>${{ number_format($transaction->tax, 0, ',', '.') }}</div>
                 </div>
                 <div class="receipt-row total-row">
                     <div>TOTAL:</div>
-                    <div>Rp{{ number_format($transaction->total, 0, ',', '.') }}</div>
+                    <div>${{ number_format($transaction->total, 0, ',', '.') }}</div>
                 </div>
             </div>
 

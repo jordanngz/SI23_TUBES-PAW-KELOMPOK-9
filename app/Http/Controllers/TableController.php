@@ -29,15 +29,35 @@ class TableController extends Controller
         return back()->with('success', 'Table added successfully.');
     }
 
-    public function update(Request $request, Table $table) {
-        $request->validate([
-            'table_number' => 'required|unique:tables,table_number,' . $table->id,
-            'seats' => 'required|integer|min:1',
-            'status' => 'required|in:available,reserved',
-        ]);
+    public function update(Request $request, $id)
+    {
+        $table = Table::findOrFail($id);
 
-        $table->update($request->all());
-        return back()->with('success', 'Table updated successfully.');
+        // Update data dasar
+        $table->table_number = $request->table_number;
+        $table->seats = $request->seats;
+
+        // Jika status diubah dan ada tanggal & jam, buat/ubah reservasi
+        if (($request->status == 'reserved' || $request->status == 'occupied') && $request->schedule_date && $request->schedule_time) {
+            $reservedAt = $request->schedule_date . ' ' . $request->schedule_time;
+            \App\Models\Reservation::updateOrCreate(
+                [
+                    'table_id' => $table->id,
+                    'reserved_at' => $reservedAt,
+                ],
+                [
+                    'status' => $request->status,
+                    'user_id' => auth()->id() // atau null/admin
+                ]
+            );
+        } else {
+            // Jika status global diubah tanpa jadwal, update status global
+            $table->status = $request->status;
+        }
+
+        $table->save();
+
+        return redirect()->route('admin.table.management')->with('success', 'Table updated!');
     }
 
     public function destroy($id)

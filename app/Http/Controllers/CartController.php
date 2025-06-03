@@ -21,7 +21,7 @@ class CartController extends Controller
         }
 
         $products = Product::all();
-        return view('auth.menu', compact('cart', 'products'));
+        return view('user.checkout.menu', compact('cart', 'products'));
     }
 
     // 🛒 Menampilkan halaman cart
@@ -34,7 +34,7 @@ class CartController extends Controller
             return redirect()->route('menu')->with('status', 'Cart is empty.');
         }
 
-        return view('auth.cart', compact('cart'));
+        return view('user.checkout.cart', compact('cart'));
     }
 
     // 💳 Menampilkan halaman checkout
@@ -50,7 +50,7 @@ class CartController extends Controller
             $transaction = \App\Models\Transaction::with('items.product')->find($transactionId);
         }
 
-        return view('auth.checkout', compact('cart', 'transaction'));
+        return view('user.payment.metode', compact('cart', 'transaction'));
     }
 
 

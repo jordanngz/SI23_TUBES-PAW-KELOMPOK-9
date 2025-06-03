@@ -9,10 +9,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
-        .sidebar { min-height: 100vh; background-color: #343a40; color: #fff; }
-        .sidebar .nav-link { color: rgba(255,255,255,0.8); transition: 0.3s; }
-        .sidebar .nav-link:hover { color: #fff; background-color: rgba(255,255,255,0.1); border-radius: 5px; }
-        .sidebar .nav-link.active { background-color: #007bff; color: #fff; border-radius: 5px; }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: var(--primary);
+        }
         .table-management { margin: 20px; }
         .table-card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; margin-bottom: 20px; }
         .table-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
@@ -45,31 +58,28 @@
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 col-lg-2 px-0 sidebar">
-            <div class="p-3">
-                <a href="/" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-                    <i class="fas fa-utensils me-2 fs-4"></i>
+            <div class="d-flex flex-column flex-shrink-0 p-3">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <span class="fs-4">Kerapu Fine Dining</span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li><a href="#" class="nav-link"><i class="fas fa-home me-2"></i> Dashboard</a></li>
-                    <li><a href="#" class="nav-link active"><i class="fas fa-chair me-2"></i> Table Management</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-calendar-alt me-2"></i> Reservations</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-utensils me-2"></i> Menu</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-receipt me-2"></i> Orders</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-chart-bar me-2"></i> Analytics</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                    <li class="nav-item"><a href="{{ route('admin.index') }}" class="nav-link"><i class="fas fa-home me-2"></i>Dashboard</a></li>
+                    <li><a href="{{ route('admin.table.management') }}" class="nav-link active"><i class="fas fa-chair shortcut-icon me-2"></i>Table Management</a></li>
+                    <li><a href="{{ route('admin.menu.management') }}" class="nav-link"><i class="fas fa-utensils me-2"></i>Menu Management</a></li>
+                    <li><a href="{{ route('admin.transactions.index') }}" class="nav-link"><i class="fas fa-calendar-check me-2"></i>Reservations</a></li>
+                    <li><a href="{{ route('admin.orders') }}" class="nav-link"><i class="fas fa-shopping-cart me-2"></i>Orders</a></li>
+                    <li><a href="{{ route('admin.reports') }}" class="nav-link"><i class="fas fa-chart-line me-2"></i>Reports</a></li>
+                    <li><a href="{{ route('admin.users') }}" class="nav-link"><i class="fas fa-users me-2"></i>User Management</a></li>
                 </ul>
                 <hr>
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                        <img src="https://via.placeholder.com/32" class="rounded-circle me-2" width="32" height="32">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>Admin</strong>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Log Out</a></li>
+                        <li> <form action="{{ route('admin.logout') }}" method="POST" class="d-inline"> @csrf <button type="submit" class="dropdown-item">Log Out</button> </form> </li>
                     </ul>
                 </div>
             </div>
@@ -200,6 +210,14 @@
                         <option value="reserved">Reserved</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Tanggal (Opsional)</label>
+                    <input type="date" name="schedule_date" id="editScheduleDate" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Jam (Opsional)</label>
+                    <input type="time" name="schedule_time" id="editScheduleTime" class="form-control">
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -218,6 +236,8 @@
         document.getElementById('editTableNumber').value = number;
         document.getElementById('editSeats').value = seats;
         document.getElementById('editStatus').value = status;
+        document.getElementById('editScheduleDate').value = '';
+        document.getElementById('editScheduleTime').value = '';
     }
 </script>
 </body>

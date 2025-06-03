@@ -34,53 +34,82 @@
         </div>
 
         <div class="sidebar-section">   
-        <h4>Your Reservation</h4>
+            <h4>Your Reservation</h4>
+            @php
+                $temp = session('temp_reservation');
+            @endphp
 
-        @if ($userReservation && $userReservation->table)
-            <div class="reservation-details" style="display:block">
-                <div class="reservation-item">
-                    <span>Table:</span> 
-                    <span id="selected-table">
-                         {{ $userReservation->table->table_number ?? 'N/A' }}
-                    </span>
+            @if ($temp)
+                <div class="reservation-details" style="display:block">
+                    <div class="reservation-item">
+                        <span>Table:</span> 
+                        <span id="selected-table">
+                            {{ $temp['table']['table_number'] ?? 'N/A' }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Date:</span> 
+                        <span id="selected-date">
+                            {{ \Carbon\Carbon::parse($temp['reserved_at'])->format('Y-m-d') }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Time:</span> 
+                        <span id="selected-time">
+                            {{ \Carbon\Carbon::parse($temp['reserved_at'])->format('H:i') }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Guests:</span> 
+                        <span id="selected-guests">
+                            {{ Auth::user()->name }}
+                        </span>
+                    </div>
                 </div>
-                <div class="reservation-item">
-                    <span>Date:</span> 
-                    <span id="selected-date">
-                        {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}
-                    </span>
+            @elseif ($userReservation && $userReservation->table)
+                <div class="reservation-details" style="display:block">
+                    <div class="reservation-item">
+                        <span>Table:</span> 
+                        <span id="selected-table">
+                            {{ $userReservation->table->table_number ?? 'N/A' }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Date:</span> 
+                        <span id="selected-date">
+                            {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('Y-m-d') }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Time:</span> 
+                        <span id="selected-time">
+                            {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('H:i') }}
+                        </span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Guests:</span> 
+                        <span id="selected-guests">
+                            {{ Auth::user()->name }}
+                        </span>
+                    </div>
                 </div>
-                <div class="reservation-item">
-                    <span>Time:</span> 
-                    <span id="selected-time">
-                        {{ \Carbon\Carbon::parse($userReservation->reserved_at)->format('H:i') }}
-                    </span>
+            @else
+                <p class="reservation-status">No table selected yet</p>
+                <div class="reservation-details">
+                    <div class="reservation-item">
+                        <span>Table:</span> <span id="selected-table">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Date:</span> <span id="selected-date">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Time:</span> <span id="selected-time">-</span>
+                    </div>
+                    <div class="reservation-item">
+                        <span>Guests:</span> <span id="selected-guests">-</span>
+                    </div>
                 </div>
-                <div class="reservation-item">
-                    <span>Guests:</span> 
-                    <span id="selected-guests">
-                        {{ Auth::user()->name }}
-                    </span>
-                </div>
-            </div>
-        @else
-            <p class="reservation-status">No table selected yet</p>
-            <div class="reservation-details">
-                <div class="reservation-item">
-                    <span>Table:</span> <span id="selected-table">-</span>
-                </div>
-                <div class="reservation-item">
-                    <span>Date:</span> <span id="selected-date">-</span>
-                </div>
-                <div class="reservation-item">
-                    <span>Time:</span> <span id="selected-time">-</span>
-                </div>
-                <div class="reservation-item">
-                    <span>Guests:</span> <span id="selected-guests">-</span>
-                </div>
-            </div>
-        @endif
-
+            @endif
 
             <a href="{{ route('menu') }}">
                 <button class="continue-btn">Continue to Menu</button>
@@ -135,7 +164,7 @@
                          data-table="{{ $table->id }}"
                          data-status="{{ $table->status }}">
                         <div class="table-image">
-                            <img src="https://source.unsplash.com/300x200/?restaurant,table,{{ $table->id }}" alt="Table {{ $table->id }}">
+                           <img src="{{ asset('storage/' . $table->image) }}" alt="Table Image"> 
                         </div>
                         <div class="table-info">
                             <h3>Table {{ $table->table_number }}</h3>
@@ -150,7 +179,7 @@
 
             <div class="reservation-actions">
                 <button class="back-btn" onclick="window.location.href='{{ route('home') }}'">Back</button>
-                <button class="next-btn">Proceed to Menu Selection</button>
+                <button class="next-btn" onclick="window.location.href='{{ route('menu') }}'">Proceed to Menu Selection</button>
             </div>
         </div>
     </div>
@@ -158,6 +187,37 @@
 
 <!-- Scripts -->
 <script>
+// Sinkronkan dropdown dengan query string saat halaman dimuat
+window.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const partySize = params.get('party_size');
+    const time = params.get('time');
+    const date = params.get('date');
+
+    if (partySize) {
+        document.getElementById('party-size').value = partySize;
+    }
+    if (time) {
+        document.getElementById('reservation-time').value = time;
+    }
+    if (date) {
+        document.getElementById('reservation-date').value = date;
+    }
+});
+
+// Filtering: reload table list when date, time, or party size changes
+document.getElementById('reservation-date').addEventListener('change', filterTables);
+document.getElementById('reservation-time').addEventListener('change', filterTables);
+document.getElementById('party-size').addEventListener('change', filterTables);
+
+function filterTables() {
+    const date = document.getElementById('reservation-date').value;
+    const time = document.getElementById('reservation-time').value;
+    const partySize = document.getElementById('party-size').value;
+    window.location.href = `?date=${date}&time=${time}&party_size=${partySize}`;
+}
+
+// Reservasi meja
 document.querySelectorAll('.table-card').forEach(card => {
     card.addEventListener('click', () => {
         const status = card.getAttribute('data-status');
@@ -192,6 +252,7 @@ document.querySelectorAll('.table-card').forEach(card => {
             alert('Sorry, this table is already reserved.');
         }
 
+        // Optional: update sidebar reservation info (jika ingin interaktif tanpa reload)
         document.querySelector('.reservation-status').style.display = 'none';
         document.querySelector('.reservation-details').style.display = 'block';
         document.getElementById('selected-table').innerText = tableName;

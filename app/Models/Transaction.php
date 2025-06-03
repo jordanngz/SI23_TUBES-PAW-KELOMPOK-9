@@ -37,4 +37,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Reservation::class);
     }
+
+    public function table()
+    {
+        return $this->belongsTo(\App\Models\Table::class);
+    }
 }

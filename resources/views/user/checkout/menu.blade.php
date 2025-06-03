@@ -84,8 +84,12 @@
             <div class="menu-grid">
                 @foreach($products as $product)
                     <div class="menu-item">
-                        <div class="menu-image">
-                            <img src="{{ $product->image ?? 'https://via.placeholder.com/300' }}" alt="{{ $product->name }}">
+                       <div class="menu-image">
+                            @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                            @else
+                                <img src="https://via.placeholder.com/300" alt="{{ $product->name }}">
+                            @endif
                         </div>
                         <div class="menu-details">
                             <h3>{{ $product->name }}</h3>

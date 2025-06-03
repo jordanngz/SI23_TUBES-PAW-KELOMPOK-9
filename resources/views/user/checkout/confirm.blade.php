@@ -20,16 +20,16 @@
                 @foreach ($transaction->items as $item)
                     <div class="order-item-sidebar">
                         <div class="item-name">{{ $item->product->name }}</div>
-                        <div class="item-price">Rp {{ number_format($item->price, 0, ',', '.') }}</div>
+                        <div class="item-price">$ {{ number_format($item->price, 0, ',', '.') }}</div>
                     </div>
                 @endforeach
             </div>
             <div class="order-total-sidebar">
                 <div class="total-breakdown">
-                    <div class="total-line"><span>Subtotal</span><span>Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</span></div>
-                    <div class="total-line"><span>Service (10%)</span><span>Rp {{ number_format($transaction->service_charge, 0, ',', '.') }}</span></div>
-                    <div class="total-line"><span>Tax (7%)</span><span>Rp {{ number_format($transaction->tax, 0, ',', '.') }}</span></div>
-                    <div class="total-line final-total"><span>Total</span><span id="final-total">Rp {{ number_format($transaction->total, 0, ',', '.') }}</span></div>
+                    <div class="total-line"><span>Subtotal</span><span>$ {{ number_format($transaction->subtotal, 0, ',', '.') }}</span></div>
+                    <div class="total-line"><span>Service (10%)</span><span>$ {{ number_format($transaction->service_charge, 0, ',', '.') }}</span></div>
+                    <div class="total-line"><span>Tax (7%)</span><span>$ {{ number_format($transaction->tax, 0, ',', '.') }}</span></div>
+                    <div class="total-line final-total"><span>Total</span><span id="final-total">$ {{ number_format($transaction->total, 0, ',', '.') }}</span></div>
                 </div>
             </div>
         </div>
@@ -60,13 +60,13 @@
                 <div class="order-details">
                     @foreach ($transaction->items as $item)
                     <div class="order-item">
-                        <div class="item-image"><img src="{{ $item->product->image ?? '/placeholder.svg?height=80&width=80' }}" alt="{{ $item->product->name }}"></div>
+                        <div class="item-image"><img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}"></div>
                         <div class="item-details">
                             <h3>{{ $item->product->name }}</h3>
                             <p>{{ $item->product->description ?? '-' }}</p>
                             <div class="item-meta">
                                 <span class="quantity">Qty: {{ $item->quantity }}</span>
-                                <span class="price">Rp {{ number_format($item->price, 0, ',', '.') }}</span>
+                                <span class="price">$ {{ number_format($item->price, 0, ',', '.') }}</span>
                             </div>
                         </div>
                     </div>
@@ -96,10 +96,10 @@
                 <div class="confirmation-section total-section">
                     <div class="section-header"><h2>Order Total</h2><span class="section-icon">💰</span></div>
                     <div class="total-breakdown-main">
-                        <div class="total-line"><span>Subtotal</span><span>Rp {{ number_format($transaction->subtotal, 0, ',', '.') }}</span></div>
-                        <div class="total-line"><span>Service Charge</span><span>Rp {{ number_format($transaction->service_charge, 0, ',', '.') }}</span></div>
-                        <div class="total-line"><span>Tax</span><span>Rp {{ number_format($transaction->tax, 0, ',', '.') }}</span></div>
-                        <div class="total-line grand-total"><span>Grand Total</span><span>Rp {{ number_format($transaction->total, 0, ',', '.') }}</span></div>
+                        <div class="total-line"><span>Subtotal</span><span>$ {{ number_format($transaction->subtotal, 0, ',', '.') }}</span></div>
+                        <div class="total-line"><span>Service Charge</span><span>$ {{ number_format($transaction->service_charge, 0, ',', '.') }}</span></div>
+                        <div class="total-line"><span>Tax</span><span>$ {{ number_format($transaction->tax, 0, ',', '.') }}</span></div>
+                        <div class="total-line grand-total"><span>Grand Total</span><span>$ {{ number_format($transaction->total, 0, ',', '.') }}</span></div>
                     </div>
                 </div>
 
