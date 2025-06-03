@@ -406,10 +406,6 @@ h1, h2, h3, h4 {
                 <ul>
                     <li class="backlink"><a href="{{ route('reserve') }}">Back to Seat Selection</a></li>
                     <li class="active"><a href="#">All Menu</a></li>
-                    <li><a href="#">Appetizers</a></li>
-                    <li><a href="#">Main Course</a></li>
-                    <li><a href="#">Desserts</a></li>
-                    <li><a href="#">Beverages</a></li>
                 </ul>
             </div>
             <div class="cart-summary">

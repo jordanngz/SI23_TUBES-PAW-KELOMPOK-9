@@ -393,7 +393,7 @@
         }
 
         .modal-body {
-            padding: 2rem;
+            padding: 1rem;
             text-align: center;
         }
 
@@ -763,7 +763,7 @@
                     <h2>Enter DANA PIN</h2>
                     <span class="close-modal">&times;</span>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="display: row; gap: 0.75rem; justify-content: center; margin-bottom: 2rem;">
                     <div class="pin-input-container">
                         @for($i = 0; $i < 6; $i++)
                             <input type="password" maxlength="1" class="pin-input" data-index="{{ $i }}">
