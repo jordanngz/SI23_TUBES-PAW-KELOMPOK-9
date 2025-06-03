@@ -562,7 +562,6 @@ h1, h2, h3, h4 {
             <ul class="sidebar-menu">
                 <li class="active"><a href="#table-selection">Table Selection</a></li>
                 <li><a href="{{ route('menu') }}">Menu Selection</a></li>
-                <li><a href="#table-layout">Table Layout</a></li>
                 <li><a href="{{ route('payment.status.final') }}">Payment Status</a></li>
             </ul>
         </div>
