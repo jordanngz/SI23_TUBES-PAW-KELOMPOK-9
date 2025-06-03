@@ -84,7 +84,7 @@
       @foreach($products as $product)
         <div class="menu-item">
           @if($product->image)
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
           @else
             <img src="https://via.placeholder.com/250x150" alt="{{ $product->name }}">
           @endif

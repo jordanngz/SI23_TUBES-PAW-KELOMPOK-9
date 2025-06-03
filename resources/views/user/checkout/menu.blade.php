@@ -469,7 +469,7 @@ h1, h2, h3, h4 {
                     <div class="menu-item">
                        <div class="menu-image">
                             @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                             @else
                                 <img src="https://via.placeholder.com/300" alt="{{ $product->name }}">
                             @endif

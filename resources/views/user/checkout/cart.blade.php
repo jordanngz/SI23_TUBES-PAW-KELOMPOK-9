@@ -665,7 +665,7 @@ h1, h2, h3, h4 {
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-image">
-                            <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}">
+                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                         </div>
                         <div class="cart-item-details">
                             <h3>{{ $item->product->name }}</h3>
