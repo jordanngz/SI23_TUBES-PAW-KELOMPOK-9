@@ -29,7 +29,7 @@
         .table-management { margin: 20px; }
         .table-card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; margin-bottom: 20px; }
         .table-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
-        .table-card-header { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; border-radius: 15px 15px 0 0; padding: 20px; }
+        .table-card-header { background: blue; color: white; border-radius: 15px 15px 0 0; padding: 20px; }
         .table-number { font-size: 1.5rem; font-weight: 600; margin: 0; }
         .status-badge { font-size: 0.8rem; padding: 5px 10px; border-radius: 20px; font-weight: 500; }
         .status-available { background-color: #d4edda; color: #155724; }
@@ -44,7 +44,7 @@
         .btn-edit:hover { background-color: #e0a800; color: #000; }
         .btn-delete { background-color: #dc3545; color: #fff; }
         .btn-delete:hover { background-color: #c82333; }
-        .page-header { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; padding: 30px 0; margin-bottom: 30px; border-radius: 0 0 20px 20px; }
+        .page-header { background: black ; color: black ; padding: 30px 0; margin-bottom: 30px; border-radius: 0 0 20px 20px; }
         .add-table-btn { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); border: none; border-radius: 10px; padding: 12px 25px; font-weight: 600; transition: 0.3s; }
         .add-table-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
         .modal-header { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; border-radius: 10px 10px 0 0; }

@@ -43,7 +43,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                         <li><hr class="dropdown-divider"></li>
-                        <li> <form action="{{ route('admin.logout') }}" method="POST" class="d-inline"> @csrf <button type="submit" class="dropdown-item">Log Out</button> </form> </li>
+                        <li> <form action="{{ route('admin.logout') }}" method="POST" class="d-inline" > @csrf <button type="submit" class="dropdown-item">Log Out</button> </form> </li>
                     </ul>
                 </div>
             </div>
@@ -87,8 +87,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Email</th>
                                     <th>Role</th>
+                                    <th>Email</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -102,14 +102,15 @@
                                             @method('PUT')
                                             <input type="text" name="name" value="{{ $user->name }}" class="form-control form-control-sm" style="width:120px" required>
                                     </td>
-                                    <td>
-                                            <input type="email" name="email" value="{{ $user->email }}" class="form-control form-control-sm" style="width:160px" required>
-                                    </td>
+
                                     <td>
                                             <select name="role" class="form-select form-select-sm" style="width:100px" required>
                                                 <option value="admin" {{ $user->role=='admin'?'selected':'' }}>Admin</option>
                                                 <option value="User" {{ $user->role=='user'?'selected':'' }}>User</option>
                                             </select>
+                                    </td>
+                                    <td>
+                                            <input type="email" name="email" value="{{ $user->email }}" class="form-control form-control-sm" style="width:160px" required>
                                     </td>
                                     <td>
                                             <button class="btn btn-sm btn-success" type="submit" title="Update"><i class="fas fa-save"></i></button>

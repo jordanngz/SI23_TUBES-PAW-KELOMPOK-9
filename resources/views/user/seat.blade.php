@@ -592,6 +592,8 @@ h1, h2, h3, h4 {
                             {{ \Carbon\Carbon::parse($temp['reserved_at'])->format('H:i') }}
                         </span>
                     </div>
+                    <div class= "reservation-item">
+                    </div>
                     <div class="reservation-item">
                         <span>Guests:</span> 
                         <span id="selected-guests">
@@ -664,6 +666,7 @@ h1, h2, h3, h4 {
                 <h2>Seat Information</h2>
                 <p>Select a table for your dining experience</p>
             </div>
+
 
             <div class="time-selection">
                 <label for="reservation-time">Select Time:</label>

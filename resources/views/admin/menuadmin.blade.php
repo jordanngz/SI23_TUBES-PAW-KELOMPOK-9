@@ -99,7 +99,7 @@
                                 <tr>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->description }}</td>
-                                    <td>Rp {{ number_format($product->price, 2, ',', '.') }}</td>
+                                    <td>$ {{ number_format($product->price, 2, ',', '.') }}</td>
                                     <td>
                                     @if($product->image)
                                         <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="max-width:120px; max-height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
