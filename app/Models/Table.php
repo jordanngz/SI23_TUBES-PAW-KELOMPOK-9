@@ -10,7 +10,13 @@ class Table extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['table_number', 'seats', 'status'];
+    protected $fillable = ['table_number', 'seats', 'status', 'type'];
+
+    // Scope untuk filter meja special
+    public function scopeSpecial($query)
+    {
+        return $query->where('type', 'special');
+    }
 
     // Relasi ke tabel reservations
     public function reservations()

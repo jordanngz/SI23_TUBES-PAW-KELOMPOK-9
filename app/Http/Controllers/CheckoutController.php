@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\{Cart, Transaction, Reservation, Table};
+use App\Services\SpecialTableService;
 
 class CheckoutController extends Controller
 {
@@ -145,6 +146,19 @@ class CheckoutController extends Controller
             $transaction->save();
 
             session()->forget('temp_reservation');
+
+            // === SPECIAL TABLE: konfirmasi ke microservice ===
+            if (!empty($temp['is_special'])) {
+                app(SpecialTableService::class)->confirmReservation([
+                    'reservation_id'     => $reservation->id,
+                    'user_id'            => auth()->id(),
+                    'event_type'         => $temp['event_type'] ?? null,
+                    'decoration_request' => $temp['decoration_request'] ?? null,
+                    'special_request'    => $temp['special_request'] ?? null,
+                    'phone'              => $temp['phone'] ?? null,
+                    'menu_preference'    => $temp['menu_preference'] ?? null,
+                ]);
+            }
         }
 
         $transaction->status = 'paid';

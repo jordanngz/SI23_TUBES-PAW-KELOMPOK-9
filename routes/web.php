@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SpecialTableController;
 
 
 /*
@@ -103,6 +104,11 @@ Route::middleware(['auth'])->group(function () {
     // Seat Reservation
     Route::get('/seat', [SeatController::class, 'index'])->name('reserve');
     Route::post('/seat', [SeatController::class, 'reserve'])->name('reserve.store');
+
+    // ✨ Special Table Reservation (Microservice)
+    Route::get('/special-table', [SpecialTableController::class, 'index'])->name('special.table');
+    Route::post('/special-table', [SpecialTableController::class, 'store'])->name('special.table.store');
+    Route::get('/special-table/available', [SpecialTableController::class, 'availableTables'])->name('special.table.available');
 
     // Menu & Cart
     Route::get('/menu', [CartController::class, 'viewMenu'])->name('menu');

@@ -11,6 +11,8 @@ class Reservation extends Model
 
     protected $fillable = [
         'user_id', 'table_id', 'reserved_at',
+        'event_type', 'decoration_request', 'special_request',
+        'phone', 'menu_preference', 'is_special',
     ];
 
     public function user() {
@@ -24,6 +26,7 @@ class Reservation extends Model
     // app/Models/Reservation.php
     protected $casts = [
         'reserved_at' => 'datetime',
+        'is_special'  => 'boolean',
     ];
 
 }

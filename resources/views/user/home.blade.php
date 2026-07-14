@@ -447,8 +447,12 @@
     @guest
       <a href="{{ route('login') }}" class="btn btn-secondary reserve-btn">Login to Reserve</a>
     @else
-      <a href="{{ route('reserve') }}" class="btn btn-primary reserve-btn">Reserve Now</a>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:3rem;">
+        <a href="{{ route('reserve') }}" class="btn btn-primary reserve-btn" style="margin-top:0;">Reserve Now</a>
+        <a href="{{ route('special.table') }}" class="btn btn-primary reserve-btn" style="margin-top:0;">✨ Special Table</a>
+      </div>
     @endguest
+
 
     <div class="contact-info">
       <p>📍 Jl. Sejahtera No.88, Jakarta Selatan, Indonesia</p>

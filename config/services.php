@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // ✨ Special Table Microservice
+    'special_table' => [
+        'url'   => env('SPECIAL_SERVICE_URL', 'http://localhost:8001'),
+        'token' => env('SPECIAL_SERVICE_TOKEN', ''),
+    ],
+
 ];
+
