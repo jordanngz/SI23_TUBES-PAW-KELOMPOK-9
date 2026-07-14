@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lps-laravel-app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: database
+      SESSION_DRIVER: database
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+    command: >
+      sh -c "composer install --no-interaction --prefer-dist --no-scripts &&
+      php artisan key:generate --force &&
+      php artisan migrate --seed &&
+      apache2-foreground"
+
+  mysql:
+    image: mysql:8.4
+    container_name: lps-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: lps_tubes
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
+  #     MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: lps-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql_data:
