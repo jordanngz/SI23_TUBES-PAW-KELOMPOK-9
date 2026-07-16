@@ -28,7 +28,7 @@
       font-family: 'Poppins', sans-serif; 
       background-color: var(--dark); 
       color: var(--light); 
-      line-height: 1.6;
+      line-height: 3,5;
       overflow-x: hidden;
     }
     
