@@ -16,20 +16,36 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Login to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker Image
-        run: |
-          docker build . \
-            -f Dockerfile \
-            -t jordanians/kerapu:latest \
-            -t jordanians/kerapu:${{ github.sha }}
+      - name: Build Docker Image (PR)
+        if: github.event_name == 'pull_request'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: |
+            jordanians/kerapu:latest
+            jordanians/kerapu:${{ github.sha }}
 
-      - name: Push Docker Image
-        run: |
-          docker push jordanians/kerapu:latest
-          docker push jordanians/kerapu:${{ github.sha }}
+      - name: Build and Push Docker Image (Master)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            jordanians/kerapu:latest
+            jordanians/kerapu:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
