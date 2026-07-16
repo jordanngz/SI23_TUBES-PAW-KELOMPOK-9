@@ -1,0 +1,73 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_ENV: ${APP_ENV:-local}
+        APP_DEBUG: ${APP_DEBUG:-true}
+        APP_URL: ${APP_URL:-http://localhost:8000}
+        DB_CONNECTION: ${DB_CONNECTION:-mysql}
+        DB_HOST: ${DB_HOST:-mysql}
+        DB_PORT: ${DB_PORT:-3306}
+        DB_DATABASE: ${DB_DATABASE:-laravel}
+        DB_USERNAME: ${DB_USERNAME:-root}
+        DB_PASSWORD: ${DB_PASSWORD:-}
+        CACHE_STORE: ${CACHE_STORE:-database}
+        QUEUE_CONNECTION: ${QUEUE_CONNECTION:-database}
+        SESSION_DRIVER: ${SESSION_DRIVER:-database}
+        REDIS_HOST: ${REDIS_HOST:-redis}
+        REDIS_PORT: ${REDIS_PORT:-6379}
+        REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    env_file:
+      - .env
+    environment:
+      # Override HANYA untuk Docker networking — sisanya dibaca dari .env lokal
+      DB_HOST: mysql
+      REDIS_HOST: redis
+    container_name: lps-laravel-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+      - vendor_data:/var/www/vendor
+      - storage_data:/var/www/storage
+      - bootstrap_cache:/var/www/bootstrap/cache
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  mysql:
+    image: mysql:8.4
+    container_name: lps-mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-lps_tubes}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: lps-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql_data:
+  vendor_data:
+  storage_data:
+  bootstrap_cache:
