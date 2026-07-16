@@ -7,12 +7,27 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --tag ${{ secrets.DOCKER_USERNAME }}/Kerapu:latest \
+            --tag ${{ secrets.DOCKER_USERNAME }}/Kerapu:${{ github.sha }}
+
+      - name: Push Docker Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/Kerapu:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/Kerapu:${{ github.sha }}
