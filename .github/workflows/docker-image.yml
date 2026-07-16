@@ -2,12 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,11 +25,11 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build . \
-            --file Dockerfile \
-            --tag ${{ secrets.DOCKER_USERNAME }}/Kerapu:latest \
-            --tag ${{ secrets.DOCKER_USERNAME }}/Kerapu:${{ github.sha }}
+            -f Dockerfile \
+            -t jordanians/kerapu:latest \
+            -t jordanians/kerapu:${{ github.sha }}
 
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/Kerapu:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/Kerapu:${{ github.sha }}
+          docker push jordanians/kerapu:latest
+          docker push jordanians/kerapu:${{ github.sha }}
